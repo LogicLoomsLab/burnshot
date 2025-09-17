@@ -50,9 +50,7 @@ export default async function handler(
 
     if (rpcError) {
       console.error("RPC error:", rpcError);
-      return res
-        .status(500)
-        .json({ ok: false, reason: "error", message: "DB error" });
+      return res.status(500).json({ ok: false, reason: "error", message: "DB error" });
     }
 
     if (!rpcRows || !Array.isArray(rpcRows) || rpcRows.length === 0) {
@@ -74,7 +72,6 @@ export default async function handler(
 
     // now status === 'ok'
     if (!row.file_path) {
-      // weird: DB says ok but no file path
       console.error("consume-view: ok but no file_path", id);
       return res
         .status(500)
@@ -125,13 +122,14 @@ export default async function handler(
           if (removeErr) {
             console.error("Failed to remove file after last view:", removeErr);
           } else {
-            try {
-              await supabaseAdmin
-                .from("screenshots")
-                .update({ file_path: null, is_removed: true, is_active: false })
-                .eq("id", id);
-            } catch (e) {
-              console.error("Failed to mark DB removed:", e);
+            // mark file_path null + is_removed true + ensure is_active false
+            const { error: updErr } = await supabaseAdmin
+              .from("screenshots")
+              .update({ file_path: null, is_removed: true, is_active: false })
+              .eq("id", id);
+
+            if (updErr) {
+              console.error("Failed to mark DB removed:", updErr);
             }
           }
         } catch (e) {
