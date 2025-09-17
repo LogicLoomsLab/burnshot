@@ -7,39 +7,40 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE!;
 const BUCKET = "screenshots";
 
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
+  throw new Error("Missing SUPABASE env vars");
+}
+
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
   auth: { persistSession: false },
 });
 
 // ---- Simple in-memory rate limiter ----
 const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
-
 function rateLimit(ip: string, limit = 5, windowMs = 60_000) {
   const now = Date.now();
   const entry = rateLimitStore.get(ip);
 
   if (!entry || now - entry.lastReset > windowMs) {
-    // reset window
     rateLimitStore.set(ip, { count: 1, lastReset: now });
     return true;
   }
-
   if (entry.count < limit) {
     entry.count++;
     return true;
   }
-
-  return false; // over limit
+  return false;
 }
 
 type Data =
   | { ok: true; id: string; url: string }
   | { ok: false; error: string };
 
+// ✅ fixed: must be plain string for Next.js config
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: `${process.env.MAX_UPLOAD_SIZE ?? 8}mb`, // hard cap
+      sizeLimit: (process.env.MAX_UPLOAD_SIZE ?? "8") + "mb",
     },
   },
 };
@@ -49,9 +50,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method !== "POST") {
-    return res
-      .status(405)
-      .json({ ok: false, error: "Method not allowed" });
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
   try {
@@ -68,17 +67,13 @@ export default async function handler(
       });
     }
 
-    const {
-      fileName,
-      fileBase64,
-      expirySeconds = 3600,
-      maxViews = 1,
-    } = req.body as {
-      fileName?: string;
-      fileBase64?: string;
-      expirySeconds?: number;
-      maxViews?: number;
-    };
+    const { fileName, fileBase64, expirySeconds = 3600, maxViews = 1 } =
+      req.body as {
+        fileName?: string;
+        fileBase64?: string;
+        expirySeconds?: number;
+        maxViews?: number;
+      };
 
     if (!fileName || !fileBase64) {
       return res
@@ -86,12 +81,10 @@ export default async function handler(
         .json({ ok: false, error: "Missing fileName or fileBase64" });
     }
 
-    // ---- Extra server-side file size validation ----
+    // ---- File size check ----
     const buffer = Buffer.from(fileBase64, "base64");
     const maxBytes =
-      parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) *
-      1024 *
-      1024;
+      parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
     if (buffer.length > maxBytes) {
       return res.status(400).json({
         ok: false,
@@ -104,7 +97,7 @@ export default async function handler(
     const id = randomUUID();
     const path = `${id}/${fileName}`;
 
-    // infer content type
+    // ---- Infer content type ----
     const ext = fileName.split(".").pop()?.toLowerCase();
     let contentType = "application/octet-stream";
     if (ext === "jpg" || ext === "jpeg") contentType = "image/jpeg";
@@ -112,22 +105,18 @@ export default async function handler(
     if (ext === "gif") contentType = "image/gif";
     if (ext === "webp") contentType = "image/webp";
 
-    // upload to Supabase Storage
+    // ---- Upload to Supabase ----
     const { error: uploadError } = await supabaseAdmin.storage
       .from(BUCKET)
       .upload(path, buffer, { contentType, upsert: false });
 
     if (uploadError) {
       console.error("Storage upload error:", uploadError);
-      return res
-        .status(500)
-        .json({ ok: false, error: uploadError.message });
+      return res.status(500).json({ ok: false, error: uploadError.message });
     }
 
-    // persist metadata in DB
-    const expiryAt = new Date(
-      Date.now() + expirySeconds * 1000
-    ).toISOString();
+    // ---- Insert metadata in DB ----
+    const expiryAt = new Date(Date.now() + expirySeconds * 1000).toISOString();
     const { error: dbError } = await supabaseAdmin
       .from("screenshots")
       .insert([
@@ -141,16 +130,13 @@ export default async function handler(
 
     if (dbError) {
       console.error("DB insert error:", dbError);
-      await supabaseAdmin.storage
-        .from(BUCKET)
-        .remove([path])
-        .catch(() => {});
-      return res
-        .status(500)
-        .json({ ok: false, error: dbError.message });
+      try {
+        await supabaseAdmin.storage.from(BUCKET).remove([path]);
+      } catch (_) {}
+      return res.status(500).json({ ok: false, error: dbError.message });
     }
 
-    // generate shareable URL dynamically
+    // ---- Generate shareable link ----
     const host = req.headers.host;
     const protocol = req.headers["x-forwarded-proto"] || "http";
     const shareUrl = `${protocol}://${host}/view/${id}`;

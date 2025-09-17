@@ -25,21 +25,34 @@ type RespOk = {
 };
 type Resp = RespError | RespOk;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Resp>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Resp>
+) {
   if (req.method !== "POST") {
-    return res.status(405).json({ ok: false, reason: "error", message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ ok: false, reason: "error", message: "Method not allowed" });
   }
 
   try {
     const { id } = req.body as { id?: string };
-    if (!id) return res.status(400).json({ ok: false, reason: "error", message: "Missing id" });
+    if (!id)
+      return res
+        .status(400)
+        .json({ ok: false, reason: "error", message: "Missing id" });
 
     // === CALL RPC that atomically checks and increments ===
-    const { data: rpcRows, error: rpcError } = await supabaseAdmin.rpc("consume_screenshot", { p_id: id });
+    const { data: rpcRows, error: rpcError } = await supabaseAdmin.rpc(
+      "consume_screenshot",
+      { p_id: id }
+    );
 
     if (rpcError) {
       console.error("RPC error:", rpcError);
-      return res.status(500).json({ ok: false, reason: "error", message: "DB error" });
+      return res
+        .status(500)
+        .json({ ok: false, reason: "error", message: "DB error" });
     }
 
     if (!rpcRows || !Array.isArray(rpcRows) || rpcRows.length === 0) {
@@ -54,14 +67,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       will_deactivate: boolean | null;
     };
 
-    if (row.status === "not_found") return res.status(404).json({ ok: false, reason: "not_found" });
-    if (row.status === "expired") return res.status(410).json({ ok: false, reason: "expired" });
+    if (row.status === "not_found")
+      return res.status(404).json({ ok: false, reason: "not_found" });
+    if (row.status === "expired")
+      return res.status(410).json({ ok: false, reason: "expired" });
 
     // now status === 'ok'
     if (!row.file_path) {
       // weird: DB says ok but no file path
       console.error("consume-view: ok but no file_path", id);
-      return res.status(500).json({ ok: false, reason: "error", message: "Missing file path" });
+      return res
+        .status(500)
+        .json({ ok: false, reason: "error", message: "Missing file path" });
     }
 
     // compute time left until expiry (if any)
@@ -80,7 +97,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     if (signedErr || !signedData?.signedUrl) {
       console.error("Signed URL error:", signedErr);
-      return res.status(500).json({ ok: false, reason: "error", message: "Failed to generate signed URL" });
+      return res.status(500).json({
+        ok: false,
+        reason: "error",
+        message: "Failed to generate signed URL",
+      });
     }
 
     // respond with signed URL but property name preserved as `fileUrl` for your frontend
@@ -97,16 +118,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (willDeactivate) {
       (async () => {
         try {
-          const { error: removeErr } = await supabaseAdmin.storage.from(BUCKET).remove([row.file_path as string]);
+          const { error: removeErr } = await supabaseAdmin.storage
+            .from(BUCKET)
+            .remove([row.file_path as string]);
+
           if (removeErr) {
             console.error("Failed to remove file after last view:", removeErr);
           } else {
-            // mark file_path null + is_removed true + ensure is_active false
-            await supabaseAdmin
-              .from("screenshots")
-              .update({ file_path: null, is_removed: true, is_active: false })
-              .eq("id", id)
-              .catch((e) => console.error("Failed to mark DB removed:", e));
+            try {
+              await supabaseAdmin
+                .from("screenshots")
+                .update({ file_path: null, is_removed: true, is_active: false })
+                .eq("id", id);
+            } catch (e) {
+              console.error("Failed to mark DB removed:", e);
+            }
           }
         } catch (e) {
           console.error("Async cleanup error:", e);
@@ -115,6 +141,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
   } catch (err: any) {
     console.error("consume-view error:", err);
-    return res.status(500).json({ ok: false, reason: "error", message: err?.message ?? String(err) });
+    return res.status(500).json({
+      ok: false,
+      reason: "error",
+      message: err?.message ?? String(err),
+    });
   }
 }
