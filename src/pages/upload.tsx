@@ -1,4 +1,6 @@
+// src/pages/upload.tsx
 import React, { useRef, useState } from "react";
+import Seo from "@/components/Seo";
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -96,154 +98,162 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-lg-8 col-md-10">
-          <div className="card shadow-sm border-0">
-            <div className="card-body p-4">
-              <h2 className="h4 mb-3 text-center">📤 Upload Screenshot</h2>
-              <p className="text-muted text-center mb-4">
-                Set expiry & view limits. Share securely with BurnShot.
-              </p>
+    <>
+      <Seo
+        title="Upload Screenshot | BurnShot 🔥"
+        description="Upload a screenshot securely with BurnShot. Set expiry time and view limits, then share a private link that vanishes automatically."
+        url="https://burnshot.vercel.app/upload"
+      />
 
-              {!shareLink ? (
-                <>
-                  {/* File input */}
-                  <div
-                    className="border rounded p-4 text-center mb-3"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <input
-                      ref={inputRef}
-                      id="fileInput"
-                      type="file"
-                      accept="image/*"
-                      onChange={onChoose}
-                      style={{ display: "none" }}
-                    />
-                    <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
-                      <div className="mb-2 fw-medium">
-                        📁 Click to upload or drag & drop
-                      </div>
-                      <div className="text-muted small">
-                        PNG, JPG, GIF, WebP (max {maxUploadSize})
-                      </div>
-                    </label>
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-8 col-md-10">
+            <div className="card shadow-sm border-0">
+              <div className="card-body p-4">
+                <h2 className="h4 mb-3 text-center">📤 Upload Screenshot</h2>
+                <p className="text-muted text-center mb-4">
+                  Set expiry & view limits. Share securely with BurnShot.
+                </p>
 
-                    {previewUrl && (
-                      <div className="mt-3">
-                        <img
-                          src={previewUrl}
-                          alt="preview"
-                          className="img-fluid rounded shadow-sm"
-                          style={{ maxHeight: "200px" }}
-                        />
-                      </div>
-                    )}
-
-                    {file && (
-                      <div className="mt-2 text-muted small">
-                        Selected: {file.name} ({Math.round(file.size / 1024)} KB)
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Expiry + Max Views */}
-                  <div className="row g-3">
-                    <div className="col-md-6">
-                      <label className="form-label">
-                        Expiry (Hours / Minutes)
-                      </label>
-                      <div className="d-flex gap-2">
-                        <input
-                          type="number"
-                          className="form-control"
-                          min={0}
-                          max={168}
-                          value={hours}
-                          onChange={(e) =>
-                            setHours(
-                              Math.max(0, Math.min(168, Number(e.target.value)))
-                            )
-                          }
-                        />
-                        <input
-                          type="number"
-                          className="form-control"
-                          min={0}
-                          max={59}
-                          value={minutes}
-                          onChange={(e) =>
-                            setMinutes(
-                              Math.max(0, Math.min(59, Number(e.target.value)))
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="text-muted small mt-1">
-                        Min 1 minute, max 7 days
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <label className="form-label">Max Views</label>
+                {!shareLink ? (
+                  <>
+                    {/* File input */}
+                    <div
+                      className="border rounded p-4 text-center mb-3"
+                      style={{ cursor: "pointer" }}
+                    >
                       <input
-                        type="number"
-                        className="form-control"
-                        min={1}
-                        max={50}
-                        value={maxViews}
-                        onChange={(e) =>
-                          setMaxViews(
-                            Math.max(1, Math.min(50, Number(e.target.value)))
-                          )
-                        }
+                        ref={inputRef}
+                        id="fileInput"
+                        type="file"
+                        accept="image/*"
+                        onChange={onChoose}
+                        style={{ display: "none" }}
                       />
-                      <div className="text-muted small mt-1">1–50 views</div>
+                      <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
+                        <div className="mb-2 fw-medium">
+                          📁 Click to upload or drag & drop
+                        </div>
+                        <div className="text-muted small">
+                          PNG, JPG, GIF, WebP (max {maxUploadSize})
+                        </div>
+                      </label>
+
+                      {previewUrl && (
+                        <div className="mt-3">
+                          <img
+                            src={previewUrl}
+                            alt="preview"
+                            className="img-fluid rounded shadow-sm"
+                            style={{ maxHeight: "200px" }}
+                          />
+                        </div>
+                      )}
+
+                      {file && (
+                        <div className="mt-2 text-muted small">
+                          Selected: {file.name} ({Math.round(file.size / 1024)} KB)
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  {/* Upload button */}
-                  <div className="mt-4 d-grid">
+                    {/* Expiry + Max Views */}
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <label className="form-label">
+                          Expiry (Hours / Minutes)
+                        </label>
+                        <div className="d-flex gap-2">
+                          <input
+                            type="number"
+                            className="form-control"
+                            min={0}
+                            max={168}
+                            value={hours}
+                            onChange={(e) =>
+                              setHours(
+                                Math.max(0, Math.min(168, Number(e.target.value)))
+                              )
+                            }
+                          />
+                          <input
+                            type="number"
+                            className="form-control"
+                            min={0}
+                            max={59}
+                            value={minutes}
+                            onChange={(e) =>
+                              setMinutes(
+                                Math.max(0, Math.min(59, Number(e.target.value)))
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="text-muted small mt-1">
+                          Min 1 minute, max 7 days
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className="form-label">Max Views</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          min={1}
+                          max={50}
+                          value={maxViews}
+                          onChange={(e) =>
+                            setMaxViews(
+                              Math.max(1, Math.min(50, Number(e.target.value)))
+                            )
+                          }
+                        />
+                        <div className="text-muted small mt-1">1–50 views</div>
+                      </div>
+                    </div>
+
+                    {/* Upload button */}
+                    <div className="mt-4 d-grid">
+                      <button
+                        className="btn btn-danger btn-lg rounded-pill"
+                        onClick={onUpload}
+                        disabled={loading || !file}
+                      >
+                        {loading ? "Uploading…" : "Upload & Get Link"}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-muted">
+                      Your secure link (expires automatically)
+                    </p>
+                    <div className="d-flex gap-2 mb-3">
+                      <input readOnly className="form-control" value={shareLink} />
+                      <button
+                        className="btn btn-success rounded-pill"
+                        onClick={copyToClipboard}
+                      >
+                        {copied ? "Copied ✅" : "Copy"}
+                      </button>
+                    </div>
                     <button
-                      className="btn btn-danger btn-lg rounded-pill"
-                      onClick={onUpload}
-                      disabled={loading || !file}
+                      className="btn btn-outline-secondary btn-sm"
+                      onClick={() => setShareLink(null)}
                     >
-                      {loading ? "Uploading…" : "Upload & Get Link"}
+                      Upload Another
                     </button>
                   </div>
-                </>
-              ) : (
-                <div className="text-center">
-                  <p className="text-muted">
-                    Your secure link (expires automatically)
-                  </p>
-                  <div className="d-flex gap-2 mb-3">
-                    <input readOnly className="form-control" value={shareLink} />
-                    <button
-                      className="btn btn-success rounded-pill"
-                      onClick={copyToClipboard}
-                    >
-                      {copied ? "Copied ✅" : "Copy"}
-                    </button>
-                  </div>
-                  <button
-                    className="btn btn-outline-secondary btn-sm"
-                    onClick={() => setShareLink(null)}
-                  >
-                    Upload Another
-                  </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className="text-center text-muted small mt-3">
-            BurnShot — secure, ephemeral screenshot sharing
+            <div className="text-center text-muted small mt-3">
+              BurnShot — secure, ephemeral screenshot sharing
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
