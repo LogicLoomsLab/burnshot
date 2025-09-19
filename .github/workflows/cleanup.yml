@@ -8,6 +8,4 @@ jobs:
     steps:
       - name: Call cleanup API
         run: |
-          curl -X GET \
-            -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" \
-            https://burnshot.vercel.app/api/cleanup
+          curl -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" https://burnshot.vercel.app/api/cleanup
