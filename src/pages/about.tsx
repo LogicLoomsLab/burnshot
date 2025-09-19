@@ -9,18 +9,24 @@ export default function AboutPage() {
           <div className="burn-card p-4">
             <h2 className="h4 mb-3">About BurnShot</h2>
             <p>
-              <strong>BurnShot</strong> is a secure, ephemeral screenshot sharing service.
-              It allows you to upload images with strict expiry and view limits,
-              ensuring sensitive content disappears after it has served its purpose.
+              <strong>BurnShot</strong> is a simple yet powerful tool for
+              sharing screenshots securely. Unlike traditional file-sharing,
+              BurnShot ensures your images disappear after a set number of views
+              or a time limit — no lingering files, no accidental oversharing.
+            </p>
+            <p>
+              Built with privacy in mind, BurnShot doesn’t require signups or
+              personal data. You’re always in control of how long your shared
+              content lives online.
             </p>
             <p>
               BurnShot is proudly developed and maintained by{" "}
-              <strong>LogicLooms Lab</strong>. Our mission is to provide simple,
-              privacy-focused tools that respect user data and prevent oversharing.
+              <strong>LogicLooms Lab</strong>. Our mission is to provide
+              privacy-focused tools that respect users and protect sensitive
+              information from unnecessary exposure.
             </p>
             <p>
-              With BurnShot, your screenshots are never permanent — they burn
-              after viewing.
+              In short: <em>Upload. Share. Burn.</em> That’s the BurnShot way.
             </p>
           </div>
         </div>

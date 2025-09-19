@@ -45,6 +45,16 @@ export default function Navbar() {
                 About
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/terms")}`} href="/terms">
+                Terms
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/privacy")}`} href="/privacy">
+                Privacy
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

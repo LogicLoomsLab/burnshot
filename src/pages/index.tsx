@@ -11,7 +11,7 @@ export default function HomePage() {
           <h1 className="display-4 fw-bold text-dark">BurnShot 🔥</h1>
           <p className="lead text-muted mb-4">
             Secure, self-destructing screenshot sharing.  
-            Upload, share, and let your screenshots vanish automatically.
+            Upload, share, and let your screenshots vanish after the set number of views or a time limit.
           </p>
           <Link href="/upload" className="btn btn-danger btn-lg rounded-pill">
             Get Started
@@ -28,8 +28,8 @@ export default function HomePage() {
                 <div className="card-body">
                   <h5 className="card-title">📤 Easy Upload</h5>
                   <p className="card-text text-muted">
-                    Upload screenshots quickly and securely. No clutter, no
-                    hassle — just drag, drop, and share.
+                    Upload screenshots quickly and securely.  
+                    No accounts required — just drag, drop, and share.
                   </p>
                 </div>
               </div>
@@ -40,8 +40,8 @@ export default function HomePage() {
                 <div className="card-body">
                   <h5 className="card-title">⏳ Auto-Expiry</h5>
                   <p className="card-text text-muted">
-                    Screenshots self-destruct after the set time or views limit,
-                    ensuring your privacy and control.
+                    Your screenshots self-destruct after the number of views you set  
+                    or once the time limit expires. You stay in control.
                   </p>
                 </div>
               </div>
@@ -50,10 +50,10 @@ export default function HomePage() {
             <div className="col-md-4">
               <div className="card h-100 shadow-sm border-0">
                 <div className="card-body">
-                  <h5 className="card-title">🔗 Share Instantly</h5>
+                  <h5 className="card-title">🔗 Instant Sharing</h5>
                   <p className="card-text text-muted">
-                    Get a unique link to share with anyone. No accounts needed.
-                    Just send and forget.
+                    Get a unique share link immediately.  
+                    Send it to anyone — no signups, no clutter, pure privacy.
                   </p>
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default function HomePage() {
       <section className="bg-danger text-white py-5 text-center">
         <div className="container">
           <h2 className="fw-bold">Ready to share securely?</h2>
-          <p className="mb-4">Start uploading your first BurnShot now.</p>
+          <p className="mb-4">Upload a screenshot now and let BurnShot handle the rest.</p>
           <Link
             href="/upload"
             className="btn btn-light btn-lg rounded-pill fw-semibold"
