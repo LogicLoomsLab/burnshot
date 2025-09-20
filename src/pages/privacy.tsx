@@ -55,8 +55,9 @@ export default function PrivacyPage() {
 
             <h5>6. Contact</h5>
             <p>
-              For questions about this policy, reach out to{" "}
-              <strong>LogicLooms Lab</strong>.
+              For questions about this policy, reach out to {" "}
+              <strong>LogicLooms Lab</strong> at {" "}
+              <a href="mailto:logicloomslab@gmail.com">logicloomslab@gmail.com</a>.
             </p>
           </div>
         </div>
