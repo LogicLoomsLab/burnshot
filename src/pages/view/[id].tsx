@@ -57,21 +57,11 @@ export default function Viewer() {
             : json.remainingViews ?? null
         );
 
-        // calculate expiry seconds
-        let remaining = null;
-        if (json.expiry_at) {
-          const exp = new Date(json.expiry_at).getTime();
-          remaining = Math.max(0, Math.floor((exp - Date.now()) / 1000));
-        } else if (typeof json.expiresInSeconds === "number") {
-          remaining = Math.max(0, Math.floor(json.expiresInSeconds));
-        } else {
-          remaining = 60; // fallback
-        }
-
+        // ✅ use secondsLeft directly from API
         if (mounted) {
-          setRemainingSeconds(remaining);
-          setInitialSeconds(remaining);
-          if (remaining <= 0) setExpired(true);
+          setRemainingSeconds(json.secondsLeft);
+          setInitialSeconds(json.secondsLeft);
+          if (!json.secondsLeft || json.secondsLeft <= 0) setExpired(true);
         }
       } catch (err) {
         console.error(err);
@@ -213,7 +203,8 @@ export default function Viewer() {
                     />
 
                     {/* countdown ring - desktop (overlay) */}
-                    <div className="d-none d-md-block"
+                    <div
+                      className="d-none d-md-block"
                       style={{
                         position: "absolute",
                         top: "10px",
@@ -225,7 +216,6 @@ export default function Viewer() {
                       <div title="Time until expiry">
                         <CountdownRing />
                       </div>
-
                     </div>
                   </div>
 
@@ -239,8 +229,7 @@ export default function Viewer() {
                   </div>
 
                   <div className="mt-3 text-muted">
-                    Remaining views:{" "}
-                    <strong>{remainingViews ?? "—"}</strong>
+                    Remaining views: <strong>{remainingViews ?? "—"}</strong>
                   </div>
                 </>
               )}
@@ -250,9 +239,7 @@ export default function Viewer() {
                   <h5 className="text-danger mb-2">
                     This screenshot has now expired.
                   </h5>
-                  <p className="text-muted">
-                    The image is no longer available.
-                  </p>
+                  <p className="text-muted">The image is no longer available.</p>
                 </div>
               )}
 

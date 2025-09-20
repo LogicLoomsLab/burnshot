@@ -20,8 +20,8 @@ type RespOk = {
   ok: true;
   fileUrl: string; // signed url
   remainingViews: number | null;
-  expiry_at?: string | null;
-  secondsLeft?: number | null;
+  expiry_at: string | null;
+  secondsLeft: number; // ✅ always present, never null
 };
 type Resp = RespError | RespOk;
 
@@ -37,10 +37,11 @@ export default async function handler(
 
   try {
     const { id } = req.body as { id?: string };
-    if (!id)
+    if (!id) {
       return res
         .status(400)
         .json({ ok: false, reason: "error", message: "Missing id" });
+    }
 
     // === CALL RPC that atomically checks and increments ===
     const { data: rpcRows, error: rpcError } = await supabaseAdmin.rpc(
@@ -50,7 +51,9 @@ export default async function handler(
 
     if (rpcError) {
       console.error("RPC error:", rpcError);
-      return res.status(500).json({ ok: false, reason: "error", message: "DB error" });
+      return res
+        .status(500)
+        .json({ ok: false, reason: "error", message: "DB error" });
     }
 
     if (!rpcRows || !Array.isArray(rpcRows) || rpcRows.length === 0) {
@@ -73,20 +76,25 @@ export default async function handler(
     // now status === 'ok'
     if (!row.file_path) {
       console.error("consume-view: ok but no file_path", id);
-      return res
-        .status(500)
-        .json({ ok: false, reason: "error", message: "Missing file path" });
+      return res.status(500).json({
+        ok: false,
+        reason: "error",
+        message: "Missing file path",
+      });
     }
 
     // compute time left until expiry (if any)
-    let secondsLeft: number | null = null;
+    let secondsLeft: number;
     if (row.expiry_at) {
       const expiryTs = new Date(row.expiry_at).getTime();
       secondsLeft = Math.max(0, Math.ceil((expiryTs - Date.now()) / 1000));
+    } else {
+      // ✅ default when no expiry is set (e.g., purely view-limited screenshot)
+      secondsLeft = 300;
     }
 
     // sign url duration: keep short, at most 300s and not longer than expiry
-    const signDuration = Math.max(1, Math.min(300, secondsLeft ?? 300));
+    const signDuration = Math.max(1, Math.min(300, secondsLeft));
 
     const { data: signedData, error: signedErr } = await supabaseAdmin.storage
       .from(BUCKET)
@@ -101,20 +109,24 @@ export default async function handler(
       });
     }
 
-    // respond with signed URL but property name preserved as `fileUrl` for your frontend
+    // respond with signed URL
     res.status(200).json({
       ok: true,
       fileUrl: signedData.signedUrl,
       remainingViews: row.remaining_views,
       expiry_at: row.expiry_at ?? null,
-      secondsLeft: secondsLeft ?? null,
+      secondsLeft, // ✅ always defined
     });
 
-    // async cleanup: if this consumption deactivated the row, delete file & mark DB
+    // async cleanup: delay deletion if this was the last allowed view
     const willDeactivate = !!row.will_deactivate;
     if (willDeactivate) {
       (async () => {
         try {
+          // wait until the signed URL expires before deleting
+          const delayMs = (signDuration + 5) * 1000; // +5s safety buffer
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
           const { error: removeErr } = await supabaseAdmin.storage
             .from(BUCKET)
             .remove([row.file_path as string]);
@@ -122,7 +134,6 @@ export default async function handler(
           if (removeErr) {
             console.error("Failed to remove file after last view:", removeErr);
           } else {
-            // mark file_path null + is_removed true + ensure is_active false
             const { error: updErr } = await supabaseAdmin
               .from("screenshots")
               .update({ file_path: null, is_removed: true, is_active: false })
