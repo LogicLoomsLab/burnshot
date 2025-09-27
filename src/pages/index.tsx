@@ -19,7 +19,7 @@ export default function HomePage() {
             <h1 className="display-4 fw-bold text-dark">BurnShot 🔥</h1>
             <p className="lead text-muted mb-4">
               Secure, self-destructing image sharing.  
-              Upload, share, and let your imagess vanish after the set number of views or a time limit.
+              Upload, share, and let your images vanish after the set number of views or a time limit.
             </p>
             <Link href="/upload" className="btn btn-danger btn-lg rounded-pill">
               Get Started
