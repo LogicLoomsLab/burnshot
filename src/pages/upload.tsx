@@ -110,7 +110,7 @@ export default function UploadPage() {
           <div className="col-lg-8 col-md-10">
             <div className="card shadow-sm border-0">
               <div className="card-body p-4">
-                <h2 className="h4 mb-3 text-center">📤 Upload Screenshot</h2>
+                <h2 className="h4 mb-3 text-center">📤 Upload Image</h2>
                 <p className="text-muted text-center mb-4">
                   Set expiry & view limits. Share securely with BurnShot.
                 </p>

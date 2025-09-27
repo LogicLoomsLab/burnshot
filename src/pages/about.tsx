@@ -17,7 +17,7 @@ export default function AboutPage() {
               <h2 className="h4 mb-3">About BurnShot</h2>
               <p>
                 <strong>BurnShot</strong> is a simple yet powerful tool for
-                sharing screenshots securely. Unlike traditional file-sharing,
+                sharing images/screenshots securely. Unlike traditional file-sharing,
                 BurnShot ensures your images disappear after a set number of views
                 or a time limit — no lingering files, no accidental oversharing.
               </p>
