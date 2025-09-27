@@ -7,7 +7,7 @@ export default function AboutPage() {
     <>
       <Seo
         title="About BurnShot | Secure Screenshot Sharing"
-        description="BurnShot is a simple yet powerful tool for sharing screenshots securely with view and time limits. Built by LogicLooms Lab."
+        description="BurnShot is a simple yet powerful tool for sharing images securely with view and time limits. Built by LogicLooms Lab."
         url="https://burnshot.vercel.app/about"
       />
       <div className="container py-5">

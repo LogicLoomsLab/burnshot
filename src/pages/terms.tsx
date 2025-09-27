@@ -7,7 +7,7 @@ export default function TermsPage() {
     <>
       <Seo
         title="Terms & Conditions | BurnShot 🔥"
-        description="Read the terms and conditions for using BurnShot — a secure, self-destructing screenshot sharing platform."
+        description="Read the terms and conditions for using BurnShot — a secure, self-destructing image sharing platform."
         url="https://burnshot.vercel.app/terms"
       />
 

@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <>
       <Seo
         title="Privacy Policy | BurnShot 🔥"
-        description="Learn how BurnShot handles your data: no accounts, no tracking, temporary storage, and secure screenshot sharing."
+        description="Learn how BurnShot handles your data: no accounts, no tracking, temporary storage, and secure image sharing."
         url="https://burnshot.vercel.app/privacy"
       />
 

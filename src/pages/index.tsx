@@ -7,8 +7,8 @@ export default function HomePage() {
   return (
     <>
       <Seo
-        title="BurnShot 🔥 | Secure, Self-Destructing Screenshot Sharing"
-        description="Upload, share, and let your screenshots vanish automatically after a set number of views or time. BurnShot gives you privacy and control."
+        title="BurnShot 🔥 | Secure, Self-Destructing Image Sharing"
+        description="Upload, share, and let your images/screenshots vanish automatically after a set number of views or time. BurnShot gives you privacy and control."
         url="https://burnshot.vercel.app/"
       />
 
