@@ -1,9 +1,11 @@
 // src/pages/_app.tsx
 import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useEffect } from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/custom.css";
 import Layout from "../components/Layout";
-import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Ensure Bootstrap JS bundle (for navbar toggler, modals, etc.)
@@ -12,9 +14,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      <Head>
+        <script
+          defer
+          data-domain="burnshot.vercel.app"
+          src="https://plausible.io/js/script.js"
+        />
+      </Head>
+
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
   );
 }
 
