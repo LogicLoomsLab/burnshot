@@ -1,8 +1,7 @@
 // src/pages/upload.tsx
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Seo from "@/components/Seo";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "../../lib/supabaseClient";
 
 const generateKey = async () => {
   return await window.crypto.subtle.generateKey(
@@ -41,14 +40,6 @@ const encryptFileToBlob = async (file: File) => {
   return { encryptedBlob, keyString };
 };
 
-interface AffiliateCampaign {
-  company_name: string;
-  headline: string;
-  subtext: string;
-  button_text: string;
-  link_url: string;
-}
-
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -59,28 +50,10 @@ export default function UploadPage() {
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [affiliate, setAffiliate] = useState<AffiliateCampaign | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const totalMinutes = hours * 60 + minutes;
   const maxUploadSizeMB = parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE ?? "8", 10);
-
-  useEffect(() => {
-    const fetchAffiliate = async () => {
-      const { data, error } = await supabase
-        .from("campaigns")
-        .select("company_name, headline, subtext, button_text, link_url")
-        .eq("is_active", true)
-        .eq("campaign_type", "banner")
-        .limit(1)
-        .single();
-
-      if (!error && data) {
-        setAffiliate(data as AffiliateCampaign);
-      }
-    };
-    fetchAffiliate();
-  }, []);
 
   function handleDragOver(e: React.DragEvent) { e.preventDefault(); setIsDragging(true); }
   function handleDragLeave(e: React.DragEvent) { e.preventDefault(); setIsDragging(false); }
@@ -151,7 +124,6 @@ export default function UploadPage() {
   return (
     <>
       <Seo title="Upload Securely | BurnShot" description="Secure, self-destructing image sharing." url="https://burnshot.app/upload" />
-      <div className="sponsor-bg" />
 
       <div className="container py-5 d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
         <motion.div initial={{ opacity: 0, y: 40, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 300, damping: 25 }} className="col-lg-6 col-md-8">
@@ -216,33 +188,6 @@ export default function UploadPage() {
                   <button className="btn btn-link text-white-50 text-decoration-none small mb-4" onClick={() => { setShareLink(null); setFile(null); setPreviewUrl(null); }}>
                     Encrypt another file
                   </button>
-
-                  <hr className="border-secondary opacity-25" />
-                  
-                  {affiliate && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4 p-3 rounded text-start" 
-                      style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
-                    >
-                      <div className="d-flex justify-content-between align-items-center mb-2">
-                        <span className="badge bg-dark border border-secondary text-white-50">Partner: {affiliate.company_name}</span>
-                      </div>
-                      <h6 className="fw-bold mb-1 text-white">{affiliate.headline}</h6>
-                      <p className="text-white-50 small mb-3">{affiliate.subtext}</p>
-                      <a 
-                        href={affiliate.link_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-sm btn-outline-light rounded-pill px-4"
-                        data-umami-event="Affiliate Click"
-                        data-umami-event-partner={affiliate.company_name}
-                      >
-                        {affiliate.button_text}
-                      </a>
-                    </motion.div>
-                  )}
                 </motion.div>
               )}
             </AnimatePresence>
