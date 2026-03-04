@@ -1,4 +1,4 @@
-// pages/api/upload.ts
+// src/pages/api/upload.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "crypto";
@@ -6,6 +6,7 @@ import { randomUUID } from "crypto";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE!;
 const BUCKET = "screenshots";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
   throw new Error("Missing SUPABASE env vars");
@@ -15,7 +16,6 @@ const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
   auth: { persistSession: false },
 });
 
-// ---- Simple in-memory rate limiter ----
 const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
 function rateLimit(ip: string, limit = 5, windowMs = 60_000) {
   const now = Date.now();
@@ -36,7 +36,6 @@ type Data =
   | { ok: true; id: string; url: string }
   | { ok: false; error: string };
 
-// ✅ fixed: must be plain string for Next.js config
 export const config = {
   api: {
     bodyParser: {
@@ -54,7 +53,6 @@ export default async function handler(
   }
 
   try {
-    // ---- Rate limiting ----
     const ip =
       (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
       req.socket.remoteAddress ||
@@ -81,7 +79,6 @@ export default async function handler(
         .json({ ok: false, error: "Missing fileName or fileBase64" });
     }
 
-    // ---- File size check ----
     const buffer = Buffer.from(fileBase64, "base64");
     const maxBytes =
       parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
@@ -97,7 +94,6 @@ export default async function handler(
     const id = randomUUID();
     const path = `${id}/${fileName}`;
 
-    // ---- Infer content type ----
     const ext = fileName.split(".").pop()?.toLowerCase();
     let contentType = "application/octet-stream";
     if (ext === "jpg" || ext === "jpeg") contentType = "image/jpeg";
@@ -105,7 +101,6 @@ export default async function handler(
     if (ext === "gif") contentType = "image/gif";
     if (ext === "webp") contentType = "image/webp";
 
-    // ---- Upload to Supabase ----
     const { error: uploadError } = await supabaseAdmin.storage
       .from(BUCKET)
       .upload(path, buffer, { contentType, upsert: false });
@@ -115,7 +110,6 @@ export default async function handler(
       return res.status(500).json({ ok: false, error: uploadError.message });
     }
 
-    // ---- Insert metadata in DB ----
     const expiryAt = new Date(Date.now() + expirySeconds * 1000).toISOString();
     const { error: dbError } = await supabaseAdmin
       .from("screenshots")
@@ -136,10 +130,12 @@ export default async function handler(
       return res.status(500).json({ ok: false, error: dbError.message });
     }
 
-    // ---- Generate shareable link ----
     const host = req.headers.host;
     const protocol = req.headers["x-forwarded-proto"] || "http";
-    const shareUrl = `${protocol}://${host}/view/${id}`;
+    const requestBaseUrl = `${protocol}://${host}`;
+    
+    const finalBaseUrl = BASE_URL || requestBaseUrl;
+    const shareUrl = `${finalBaseUrl}/view/${id}`;
 
     return res.status(200).json({ ok: true, id, url: shareUrl });
   } catch (err: any) {

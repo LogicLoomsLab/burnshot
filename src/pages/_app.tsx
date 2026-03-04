@@ -8,7 +8,6 @@ import "../styles/custom.css";
 import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // Ensure Bootstrap JS bundle (for navbar toggler, modals, etc.)
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -18,8 +17,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <script
           defer
-          data-domain="burnshot.vercel.app"
-          src="https://plausible.io/js/script.js"
+          src="https://cloud.umami.is/script.js"
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
         />
       </Head>
 

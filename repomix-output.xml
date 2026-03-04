@@ -1,0 +1,2023 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.github/
+  workflows/
+    cleanup.yml
+lib/
+  supabaseClient.ts
+public/
+  burnshot-og.png
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+src/
+  components/
+    Footer.tsx
+    Layout.tsx
+    Navbar.tsx
+    Seo.tsx
+  pages/
+    api/
+      cleanup.ts
+      consume-view.ts
+      upload.ts
+    view/
+      [id].tsx
+    _app.tsx
+    about.tsx
+    index.tsx
+    privacy.tsx
+    terms.tsx
+    upload.tsx
+  styles/
+    custom.css
+  types/
+    bootstrap.d.ts
+supabase/
+  .temp/
+    cli-latest
+  functions/
+    cleanup/
+      .npmrc
+      deno.json
+      index.ts
+    upload_screenshot/
+      index.ts
+  config.toml
+.gitignore
+eslint.config.mjs
+next.config.js
+package.json
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="lib/supabaseClient.ts">
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="src/components/Layout.tsx">
+// src/components/Layout.tsx
+import { ReactNode } from "react";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+
+type LayoutProps = {
+  children: ReactNode;
+};
+
+export default function Layout({ children }: LayoutProps) {
+  return (
+    <div className="d-flex flex-column min-vh-100">
+      {/* Navbar always at top */}
+      <Navbar />
+
+      {/* Main content fills available space */}
+      <main className="flex-fill">{children}</main>
+
+      {/* Footer always at bottom */}
+      <Footer />
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/Seo.tsx">
+// src/components/Seo.tsx
+import Head from "next/head";
+
+type SeoProps = {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+};
+
+export default function Seo({ title, description, url, image }: SeoProps) {
+  const defaultImage = image || "/burnshot-og.png"; // put an image in public/ folder
+
+  return (
+    <Head>
+      {/* Primary Meta Tags */}
+      <title>{title}</title>
+      <meta name="title" content={title} />
+      <meta name="description" content={description} />
+      <link rel="canonical" href={url} />
+
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={defaultImage} />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content={url} />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+      <meta property="twitter:image" content={defaultImage} />
+    </Head>
+  );
+}
+</file>
+
+<file path="src/styles/custom.css">
+/* src/styles/custom.css */
+
+/* Basic body background and text color */
+:root {
+    --bg: #0b0f1a;
+    --card: #0f1724;
+    --muted: #9aa4b2;
+    --accent: #ff5858;
+    --accent-2: #ffb86b;
+  }
+  
+  html, body, #__next {
+    height: 100%;
+  }
+  
+  body {
+    background: linear-gradient(180deg, #07070b 0%, #0d1117 100%);
+    color: #e6eef6;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Card look */
+  .burn-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  }
+  
+  /* File dropzone */
+  .dropzone {
+    border: 2px dashed rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 30px;
+    transition: background .18s ease, border-color .18s ease;
+  }
+  .dropzone:hover {
+    background: rgba(255,255,255,0.01);
+    border-color: rgba(255,255,255,0.08);
+  }
+  
+  /* small muted helper text */
+  .muted-sm { color: var(--muted); font-size: .87rem; }
+  
+  /* rounded full button */
+  .btn-pill { border-radius: 999px; }
+  
+  /* preview image */
+  .img-preview {
+    max-height: 320px;
+    width: auto;
+    border-radius: 12px;
+    object-fit: contain;
+    display:block;
+    margin-left:auto;margin-right:auto;
+  }
+  
+  /* circular countdown ring */
+  .countdown-ring {
+    width: 76px;
+    height: 76px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    pointer-events: none;
+  }
+  .countdown-text {
+    font-weight: 700;
+    font-size: 14px;
+    fill: #fff;
+    text-anchor: middle;
+  }
+  
+  /* Expired overlay */
+  .expired-overlay {
+    background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(10,10,10,0.7));
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff6b6b;
+    font-weight: 700;
+  }
+  
+  /* small helpers */
+  .center-vertical { display:flex; align-items:center; justify-content:center; }
+  .mb-1 { margin-bottom: .25rem; }
+  .mt-1 { margin-top: .25rem; }
+
+  /* Force navbar to always use the same solid dark color */
+.navbar.bg-dark {
+  background-color: #0b0f1a !important;
+}
+</file>
+
+<file path="src/types/bootstrap.d.ts">
+declare module "bootstrap/dist/js/bootstrap.bundle.min.js";
+</file>
+
+<file path="supabase/.temp/cli-latest">
+v2.40.7
+</file>
+
+<file path="supabase/functions/cleanup/.npmrc">
+# Configuration for private npm package dependencies
+# For more information on using private registries with Edge Functions, see:
+# https://supabase.com/docs/guides/functions/import-maps#importing-from-private-registries
+</file>
+
+<file path="supabase/functions/cleanup/deno.json">
+{
+  "imports": {}
+}
+</file>
+
+<file path="supabase/functions/cleanup/index.ts">
+// supabase/functions/cleanup/index.ts
+import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+serve(async (req) => {
+  try {
+    const authHeader = req.headers.get("Authorization");
+
+    // 1️⃣ If request is from CRON → must use service role key
+    if (authHeader === `Bearer ${supabaseServiceKey}`) {
+      console.log("Running cleanup via CRON job");
+    } else {
+      // 2️⃣ Otherwise → must be an admin user
+      if (!authHeader) {
+        return new Response(
+          JSON.stringify({ status: "error", message: "Unauthorized" }),
+          { status: 401, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      // Validate user JWT
+      const jwt = authHeader.replace("Bearer ", "");
+      const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey);
+      const { data: { user }, error } = await supabaseAuth.auth.getUser(jwt);
+
+      if (error || !user) {
+        return new Response(
+          JSON.stringify({ status: "error", message: "Invalid user" }),
+          { status: 401, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      if (user.app_metadata?.role !== "admin") {
+        return new Response(
+          JSON.stringify({ status: "error", message: "Forbidden" }),
+          { status: 403, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      console.log(`Running cleanup via manual admin trigger: ${user.email}`);
+    }
+
+    // 3️⃣ Delete expired screenshots
+    const now = new Date().toISOString();
+
+    const { data: expired, error: selectError } = await supabase
+      .from("screenshots")
+      .select("id, file_path")
+      .lte("expiry_at", now)
+      .or("views.gte.max_views");
+
+    if (selectError) {
+      console.error("Select error:", selectError);
+      throw selectError;
+    }
+
+    if (expired && expired.length > 0) {
+      // Delete files from storage
+      const paths = expired.map((f) => f.file_path);
+      const { error: storageError } = await supabase.storage
+        .from("screenshots")
+        .remove(paths);
+
+      if (storageError) {
+        console.error("Storage deletion error:", storageError);
+        throw storageError;
+      }
+
+      // Delete rows from DB
+      const ids = expired.map((f) => f.id);
+      const { error: deleteError } = await supabase
+        .from("screenshots")
+        .delete()
+        .in("id", ids);
+
+      if (deleteError) {
+        console.error("Delete rows error:", deleteError);
+        throw deleteError;
+      }
+
+      console.log(`✅ Cleaned up ${expired.length} expired screenshots`);
+    } else {
+      console.log("No expired screenshots found");
+    }
+
+    return new Response(
+      JSON.stringify({
+        status: "success",
+        message: expired?.length
+          ? `Cleaned up ${expired.length} expired screenshots`
+          : "No expired screenshots found",
+      }),
+      { headers: { "Content-Type": "application/json" } }
+    );
+  } catch (err) {
+    console.error("Cleanup error:", err);
+    return new Response(
+      JSON.stringify({ status: "error", message: "Internal server error" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+});
+</file>
+
+<file path="supabase/functions/upload_screenshot/index.ts">
+import { createClient } from "npm:@supabase/supabase-js";
+
+const supabase = createClient(
+  Deno.env.get("SUPABASE_URL")!,
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+);
+
+Deno.serve(async (req) => {
+  try {
+    const { fileName, fileContent } = await req.json();
+    if (!fileName || !fileContent) {
+      return new Response(JSON.stringify({ error: "Missing fileName or fileContent" }), { status: 400 });
+    }
+
+    const filePath = `screenshots/${fileName}`;
+
+    // Upload file
+    const { error: uploadError } = await supabase.storage
+      .from("screenshots")
+      .upload(filePath, new TextEncoder().encode(fileContent), {
+        contentType: "image/png",
+        upsert: true,
+      });
+
+    if (uploadError) throw uploadError;
+
+    // Insert metadata
+    const { error: dbError } = await supabase.from("screenshots").insert({
+      file_path: filePath,
+    });
+
+    if (dbError) throw dbError;
+
+    return new Response(JSON.stringify({ status: "success", filePath }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error("Upload error:", err);
+    return new Response(
+      JSON.stringify({ status: "error", message: String(err) }),
+      { headers: { "Content-Type": "application/json" }, status: 500 }
+    );
+  }
+});
+</file>
+
+<file path="supabase/config.toml">
+[functions.cleanup]
+enabled = true
+verify_jwt = true
+import_map = "./functions/cleanup/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/cleanup/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/cleanup/*.html" ]
+</file>
+
+<file path="eslint.config.mjs">
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+    ],
+  },
+];
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.js">
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+};
+
+module.exports = nextConfig;
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="src/components/Footer.tsx">
+// src/components/Footer.tsx
+import Link from "next/link";
+
+export default function Footer() {
+  return (
+    <footer className="bg-dark text-light py-3 mt-5 border-top border-secondary">
+      <div className="container text-center small">
+        BurnShot © {new Date().getFullYear()} — Secure, ephemeral sharing
+        <div className="text-muted mb-2">
+          Built with ❤️ by LogicLooms Lab
+        </div>
+        <div>
+          <Link href="/terms" className="text-decoration-none text-light me-3">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-decoration-none text-light">
+            Privacy
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="src/components/Navbar.tsx">
+// src/components/Navbar.tsx
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+export default function Navbar() {
+  const router = useRouter();
+
+  const isActive = (path: string) =>
+    router.pathname === path ? "active fw-bold" : "";
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div className="container">
+        <Link className="navbar-brand fw-bold text-danger" href="/">
+          BurnShot
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/")}`} href="/">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${isActive("/upload")}`}
+                href="/upload"
+              >
+                Upload
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/about")}`} href="/about">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/terms")}`} href="/terms">
+                Terms
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/privacy")}`} href="/privacy">
+                Privacy
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+}
+</file>
+
+<file path="src/pages/api/cleanup.ts">
+// pages/api/cleanup.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE!;
+const BUCKET = "screenshots";
+const CLEANUP_SECRET = process.env.CLEANUP_SECRET || "";
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
+  throw new Error("Missing SUPABASE env vars");
+}
+
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
+  auth: { persistSession: false },
+});
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "GET") return res.status(405).end("Only GET");
+
+  const incomingSecret = req.headers["x-cleanup-secret"];
+  if (!CLEANUP_SECRET || incomingSecret !== CLEANUP_SECRET) {
+    return res.status(401).end("Unauthorized");
+  }
+
+  try {
+    // fetch candidates
+    const { data: rows, error } = await supabaseAdmin
+      .from("screenshots")
+      .select("id, file_path, expiry_at, max_views, views, is_active")
+      .limit(1000);
+
+    if (error) {
+      console.error("Cleanup: DB fetch error:", error);
+      return res.status(500).json({ ok: false, message: "DB error" });
+    }
+
+    const now = new Date();
+    const toDelete = (rows || []).filter((r: any) => {
+      if (!r.file_path) return false;
+      if (!r.is_active) return true;
+      if (r.expiry_at && new Date(r.expiry_at) <= now) return true;
+      if (
+        r.max_views !== null &&
+        r.max_views !== undefined &&
+        r.views >= r.max_views
+      )
+        return true;
+      return false;
+    });
+
+    if (toDelete.length === 0) {
+      return res.status(200).json({ ok: true, deleted: 0 });
+    }
+
+    // process in parallel
+    const results = await Promise.allSettled(
+      toDelete.map(async (r: any) => {
+        try {
+          const filePath = r.file_path;
+          const { error: rmErr } = await supabaseAdmin.storage
+            .from(BUCKET)
+            .remove([filePath]);
+
+          const { error: updErr } = await supabaseAdmin
+            .from("screenshots")
+            .update({ file_path: null, is_removed: true, is_active: false })
+            .eq("id", r.id);
+
+          return { id: r.id, removed: !rmErr, rmErr, updErr };
+        } catch (e) {
+          return { id: r.id, removed: false, error: String(e) };
+        }
+      })
+    );
+
+    const deletedCount = results.filter(
+      (r) =>
+        r.status === "fulfilled" &&
+        (r as any).value &&
+        (r as any).value.removed
+    ).length;
+
+    return res.status(200).json({
+      ok: true,
+      examined: toDelete.length,
+      deleted: deletedCount,
+      details: results,
+    });
+  } catch (err: any) {
+    console.error("cleanup error:", err);
+    return res.status(500).json({ ok: false, message: String(err) });
+  }
+}
+</file>
+
+<file path="src/pages/api/upload.ts">
+// pages/api/upload.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { createClient } from "@supabase/supabase-js";
+import { randomUUID } from "crypto";
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE!;
+const BUCKET = "screenshots";
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
+  throw new Error("Missing SUPABASE env vars");
+}
+
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
+  auth: { persistSession: false },
+});
+
+// ---- Simple in-memory rate limiter ----
+const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
+function rateLimit(ip: string, limit = 5, windowMs = 60_000) {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+
+  if (!entry || now - entry.lastReset > windowMs) {
+    rateLimitStore.set(ip, { count: 1, lastReset: now });
+    return true;
+  }
+  if (entry.count < limit) {
+    entry.count++;
+    return true;
+  }
+  return false;
+}
+
+type Data =
+  | { ok: true; id: string; url: string }
+  | { ok: false; error: string };
+
+// ✅ fixed: must be plain string for Next.js config
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: (process.env.MAX_UPLOAD_SIZE ?? "8") + "mb",
+    },
+  },
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
+  }
+
+  try {
+    // ---- Rate limiting ----
+    const ip =
+      (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
+      req.socket.remoteAddress ||
+      "unknown";
+
+    if (!rateLimit(ip)) {
+      return res.status(429).json({
+        ok: false,
+        error: "Too many uploads. Please wait a minute.",
+      });
+    }
+
+    const { fileName, fileBase64, expirySeconds = 3600, maxViews = 1 } =
+      req.body as {
+        fileName?: string;
+        fileBase64?: string;
+        expirySeconds?: number;
+        maxViews?: number;
+      };
+
+    if (!fileName || !fileBase64) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "Missing fileName or fileBase64" });
+    }
+
+    // ---- File size check ----
+    const buffer = Buffer.from(fileBase64, "base64");
+    const maxBytes =
+      parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
+    if (buffer.length > maxBytes) {
+      return res.status(400).json({
+        ok: false,
+        error: `File too large. Max allowed is ${
+          process.env.MAX_UPLOAD_SIZE ?? 8
+        }MB`,
+      });
+    }
+
+    const id = randomUUID();
+    const path = `${id}/${fileName}`;
+
+    // ---- Infer content type ----
+    const ext = fileName.split(".").pop()?.toLowerCase();
+    let contentType = "application/octet-stream";
+    if (ext === "jpg" || ext === "jpeg") contentType = "image/jpeg";
+    if (ext === "png") contentType = "image/png";
+    if (ext === "gif") contentType = "image/gif";
+    if (ext === "webp") contentType = "image/webp";
+
+    // ---- Upload to Supabase ----
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from(BUCKET)
+      .upload(path, buffer, { contentType, upsert: false });
+
+    if (uploadError) {
+      console.error("Storage upload error:", uploadError);
+      return res.status(500).json({ ok: false, error: uploadError.message });
+    }
+
+    // ---- Insert metadata in DB ----
+    const expiryAt = new Date(Date.now() + expirySeconds * 1000).toISOString();
+    const { error: dbError } = await supabaseAdmin
+      .from("screenshots")
+      .insert([
+        {
+          id,
+          file_path: path,
+          expiry_at: expiryAt,
+          max_views: maxViews,
+        },
+      ]);
+
+    if (dbError) {
+      console.error("DB insert error:", dbError);
+      try {
+        await supabaseAdmin.storage.from(BUCKET).remove([path]);
+      } catch (_) {}
+      return res.status(500).json({ ok: false, error: dbError.message });
+    }
+
+    // ---- Generate shareable link ----
+    const host = req.headers.host;
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const shareUrl = `${protocol}://${host}/view/${id}`;
+
+    return res.status(200).json({ ok: true, id, url: shareUrl });
+  } catch (err: any) {
+    console.error("Upload API error:", err);
+    return res
+      .status(500)
+      .json({ ok: false, error: err?.message ?? String(err) });
+  }
+}
+</file>
+
+<file path="src/pages/view/[id].tsx">
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+export default function Viewer() {
+  const router = useRouter();
+  const { id } = router.query as { id?: string };
+
+  const [loading, setLoading] = useState(false);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [remainingViews, setRemainingViews] = useState<number | null>(null);
+
+  // countdown states
+  const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
+  const [initialSeconds, setInitialSeconds] = useState<number | null>(null);
+  const [expired, setExpired] = useState(false);
+
+  // format HH:MM:SS
+  function formatTime(s: number) {
+    if (s <= 0) return "0s";
+    const hrs = Math.floor(s / 3600);
+    const mins = Math.floor((s % 3600) / 60);
+    const secs = s % 60;
+    if (hrs > 0) return `${hrs}h ${mins}m ${secs}s`;
+    if (mins > 0) return `${mins}m ${secs}s`;
+    return `${secs}s`;
+  }
+
+  useEffect(() => {
+    if (!id) return;
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      setErrorMsg(null);
+
+      try {
+        const resp = await fetch("/api/consume-view", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id }),
+        });
+        const json = await resp.json();
+
+        if (!resp.ok || !json.ok) {
+          setErrorMsg(
+            json.reason === "expired"
+              ? "This screenshot has expired or been consumed."
+              : json.message || "Failed to load screenshot."
+          );
+          return;
+        }
+
+        setFileUrl(json.fileUrl ?? null);
+        setRemainingViews(
+          typeof json.remainingViews === "number"
+            ? json.remainingViews
+            : json.remainingViews ?? null
+        );
+
+        // ✅ use secondsLeft directly from API
+        if (mounted) {
+          setRemainingSeconds(json.secondsLeft);
+          setInitialSeconds(json.secondsLeft);
+          if (!json.secondsLeft || json.secondsLeft <= 0) setExpired(true);
+        }
+      } catch (err) {
+        console.error(err);
+        setErrorMsg("Unexpected error");
+      } finally {
+        setLoading(false);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [id]);
+
+  // countdown ticking
+  useEffect(() => {
+    if (remainingSeconds === null) return;
+    if (remainingSeconds <= 0) {
+      setExpired(true);
+      return;
+    }
+    const t = setInterval(() => {
+      setRemainingSeconds((r) => {
+        if (r === null) return r;
+        if (r <= 1) {
+          clearInterval(t);
+          setExpired(true);
+          return 0;
+        }
+        return r - 1;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, [remainingSeconds]);
+
+  // prevent saving / screenshots
+  useEffect(() => {
+    const blockKeys = (e: KeyboardEvent) => {
+      if (
+        e.key === "PrintScreen" ||
+        (e.ctrlKey && e.key === "p") ||
+        (e.metaKey && (e.key === "s" || e.key === "p"))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        alert("Screenshots / saving are disabled for this page.");
+      }
+    };
+    const blockContext = (e: MouseEvent) => e.preventDefault();
+
+    window.addEventListener("keydown", blockKeys);
+    window.addEventListener("contextmenu", blockContext);
+
+    return () => {
+      window.removeEventListener("keydown", blockKeys);
+      window.removeEventListener("contextmenu", blockContext);
+    };
+  }, []);
+
+  // circular progress math
+  const radius = 34;
+  const circumference = 2 * Math.PI * radius;
+  const progress =
+    initialSeconds && remainingSeconds !== null
+      ? Math.max(0, remainingSeconds / Math.max(1, initialSeconds))
+      : 0;
+  const offset = circumference * (1 - progress);
+
+  // countdown ring component
+  const CountdownRing = () => (
+    <svg className="countdown-ring" viewBox="0 0 100 100" aria-hidden>
+      {/* background circle */}
+      <circle
+        cx="50"
+        cy="50"
+        r={radius}
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth="6"
+        fill="transparent"
+      />
+      {/* progress circle */}
+      <circle
+        cx="50"
+        cy="50"
+        r={radius}
+        stroke="url(#g1)"
+        strokeWidth="6"
+        fill="transparent"
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        strokeLinecap="round"
+        transform="rotate(-90 50 50)"
+      />
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ff3b3b" />
+          <stop offset="100%" stopColor="#ffb86b" />
+        </linearGradient>
+      </defs>
+      {/* countdown text */}
+      <text
+        x="50"
+        y="56"
+        fontSize="14"
+        textAnchor="middle"
+        fill="#fff"
+        fontWeight="bold"
+        style={{ textShadow: "0 0 4px rgba(0,0,0,0.6)" }}
+      >
+        {remainingSeconds !== null ? formatTime(remainingSeconds) : ""}
+      </text>
+    </svg>
+  );
+
+  return (
+    <div className="container py-5">
+      <div className="row justify-content-center">
+        <div className="col-lg-10">
+          <div className="card shadow-sm border-0">
+            <div className="card-body text-center p-4">
+              <h2 className="h4 mb-4">📷 View Image</h2>
+
+              {loading && <div className="py-4 text-muted">Loading…</div>}
+
+              {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+              )}
+
+              {fileUrl && !expired && (
+                <>
+                  <div className="position-relative">
+                    <img
+                      src={fileUrl}
+                      alt="BurnShot"
+                      className="img-fluid rounded shadow-sm"
+                      style={{ maxHeight: "70vh", objectFit: "contain" }}
+                      draggable={false}
+                      onDragStart={(e) => e.preventDefault()}
+                    />
+
+                    {/* countdown ring - desktop (overlay) */}
+                    <div
+                      className="d-none d-md-block"
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                        width: "80px",
+                        height: "80px",
+                      }}
+                    >
+                      <div title="Time until expiry">
+                        <CountdownRing />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* countdown ring - mobile (below image) */}
+                  <div className="d-block d-md-none mt-3">
+                    <div style={{ width: "80px", margin: "0 auto" }}>
+                      <div title="Time until expiry">
+                        <CountdownRing />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 text-muted">
+                    Remaining views: <strong>{remainingViews ?? "—"}</strong>
+                  </div>
+                </>
+              )}
+
+              {expired && (
+                <div className="p-4 text-center">
+                  <h5 className="text-danger mb-2">
+                    This screenshot has now expired.
+                  </h5>
+                  <p className="text-muted">The image is no longer available.</p>
+                </div>
+              )}
+
+              {!loading && !fileUrl && !errorMsg && !expired && (
+                <div className="py-4 text-muted">Preparing screenshot…</div>
+              )}
+            </div>
+          </div>
+
+          <div className="text-center text-muted small mt-3">
+            BurnShot — secure, ephemeral screenshot viewing
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/pages/_app.tsx">
+// src/pages/_app.tsx
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useEffect } from "react";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/custom.css";
+import Layout from "../components/Layout";
+
+function MyApp({ Component, pageProps }: AppProps) {
+  // Ensure Bootstrap JS bundle (for navbar toggler, modals, etc.)
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <script
+          defer
+          data-domain="burnshot.vercel.app"
+          src="https://plausible.io/js/script.js"
+        />
+      </Head>
+
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
+  );
+}
+
+export default MyApp;
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+.env.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="package.json">
+{
+  "name": "burnshot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "tailwind:init": "tailwindcss init -p"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.56.0",
+    "@upstash/ratelimit": "^2.0.6",
+    "@upstash/redis": "^1.35.3",
+    "bootstrap": "^5.3.8",
+    "lucide-react": "^0.544.0",
+    "next": "^14.2.32",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.0",
+    "postcss": "^8.5.6",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="src/pages/terms.tsx">
+// src/pages/terms.tsx
+import React from "react";
+import Seo from "@/components/Seo";
+
+export default function TermsPage() {
+  return (
+    <>
+      <Seo
+        title="Terms & Conditions | BurnShot 🔥"
+        description="Read the terms and conditions for using BurnShot — a secure, self-destructing image sharing platform."
+        url="https://burnshot.vercel.app/terms"
+      />
+
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-8 col-md-10">
+            <h2 className="mb-4">Terms & Conditions</h2>
+            <p>
+              Welcome to <strong>BurnShot</strong>. By using our service, you agree
+              to the following terms:
+            </p>
+
+            <h5>1. Usage</h5>
+            <p>
+              BurnShot is intended for temporary sharing of screenshots and images
+              only. Do not use this service to share illegal, harmful, or abusive
+              content.
+            </p>
+
+            <h5>2. Ephemeral Storage</h5>
+            <p>
+              Uploaded files are automatically deleted after the set number of
+              views or after the expiry time you choose. While we do our best to
+              enforce this, we cannot guarantee absolute deletion from all systems
+              instantly.
+            </p>
+
+            <h5>3. No Liability</h5>
+            <p>
+              BurnShot is provided “as is.” We do not accept responsibility for
+              loss of data, unauthorized access, or misuse of links once they have
+              been shared.
+            </p>
+
+            <h5>4. Fair Use</h5>
+            <p>
+              Users must not abuse the service by overloading servers, attempting
+              to bypass limits, or using BurnShot for malicious activities.
+            </p>
+
+            <h5>5. Changes</h5>
+            <p>
+              We may update these Terms at any time. Continued use of the service
+              means you accept the latest version.
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+</file>
+
+<file path="src/pages/upload.tsx">
+// src/pages/upload.tsx
+import React, { useRef, useState } from "react";
+import Seo from "@/components/Seo";
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const comma = result.indexOf(",");
+      resolve(result.slice(comma + 1));
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+export default function UploadPage() {
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [hours, setHours] = useState<number>(0);
+  const [minutes, setMinutes] = useState<number>(15);
+  const [maxViews, setMaxViews] = useState<number>(5);
+  const [loading, setLoading] = useState(false);
+  const [shareLink, setShareLink] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const totalMinutes = hours * 60 + minutes;
+  const validateExpiry = () => totalMinutes >= 1 && totalMinutes <= 7 * 24 * 60;
+  const validateMaxViews = () => maxViews >= 1 && maxViews <= 50;
+
+  const maxUploadSizeMB = parseInt(
+    process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE ?? "8",
+    10
+  );
+  const maxUploadSize = `${maxUploadSizeMB} MB`;
+
+  function onChoose(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0] ?? null;
+    if (f) {
+      if (f.size > maxUploadSizeMB * 1024 * 1024) {
+        alert(`File too large. Max allowed size is ${maxUploadSize}.`);
+        e.target.value = ""; // reset file input
+        return;
+      }
+      setFile(f);
+      setPreviewUrl(URL.createObjectURL(f));
+    } else {
+      setFile(null);
+      setPreviewUrl(null);
+    }
+  }
+
+  async function onUpload() {
+    if (!file) return alert("Please select a file.");
+    if (!validateExpiry()) return alert("Expiry must be 1 minute to 7 days.");
+    if (!validateMaxViews())
+      return alert("Max views must be between 1 and 50.");
+
+    setLoading(true);
+    try {
+      const base64 = await fileToBase64(file);
+      const resp = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: file.name,
+          fileBase64: base64,
+          expirySeconds: totalMinutes * 60,
+          maxViews,
+        }),
+      });
+
+      const json = await resp.json();
+      if (!resp.ok || !json.ok) {
+        alert("Upload failed: " + (json.error || resp.statusText));
+        setLoading(false);
+        return;
+      }
+
+      setShareLink(json.url);
+      setFile(null);
+      setPreviewUrl(null);
+    } catch (err: any) {
+      console.error(err);
+      alert("Upload error: " + (err?.message || String(err)));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function copyToClipboard() {
+    if (!shareLink) return;
+    navigator.clipboard.writeText(shareLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <>
+      <Seo
+        title="Upload Screenshot | BurnShot 🔥"
+        description="Upload a screenshot securely with BurnShot. Set expiry time and view limits, then share a private link that vanishes automatically."
+        url="https://burnshot.vercel.app/upload"
+      />
+
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-8 col-md-10">
+            <div className="card shadow-sm border-0">
+              <div className="card-body p-4">
+                <h2 className="h4 mb-3 text-center">📤 Upload Image</h2>
+                <p className="text-muted text-center mb-4">
+                  Set expiry & view limits. Share securely with BurnShot.
+                </p>
+
+                {!shareLink ? (
+                  <>
+                    {/* File input */}
+                    <div
+                      className="border rounded p-4 text-center mb-3"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <input
+                        ref={inputRef}
+                        id="fileInput"
+                        type="file"
+                        accept="image/*"
+                        onChange={onChoose}
+                        style={{ display: "none" }}
+                      />
+                      <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
+                        <div className="mb-2 fw-medium">
+                          📁 Click to upload or drag & drop
+                        </div>
+                        <div className="text-muted small">
+                          PNG, JPG, GIF, WebP (max {maxUploadSize})
+                        </div>
+                      </label>
+
+                      {previewUrl && (
+                        <div className="mt-3">
+                          <img
+                            src={previewUrl}
+                            alt="preview"
+                            className="img-fluid rounded shadow-sm"
+                            style={{ maxHeight: "200px" }}
+                          />
+                        </div>
+                      )}
+
+                      {file && (
+                        <div className="mt-2 text-muted small">
+                          Selected: {file.name} ({Math.round(file.size / 1024)} KB)
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Expiry + Max Views */}
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <label className="form-label">
+                          Expiry (Hours / Minutes)
+                        </label>
+                        <div className="d-flex gap-2">
+                          <input
+                            type="number"
+                            className="form-control"
+                            min={0}
+                            max={168}
+                            value={hours}
+                            onChange={(e) =>
+                              setHours(
+                                Math.max(0, Math.min(168, Number(e.target.value)))
+                              )
+                            }
+                          />
+                          <input
+                            type="number"
+                            className="form-control"
+                            min={0}
+                            max={59}
+                            value={minutes}
+                            onChange={(e) =>
+                              setMinutes(
+                                Math.max(0, Math.min(59, Number(e.target.value)))
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="text-muted small mt-1">
+                          Min 1 minute, max 7 days
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className="form-label">Max Views</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          min={1}
+                          max={50}
+                          value={maxViews}
+                          onChange={(e) =>
+                            setMaxViews(
+                              Math.max(1, Math.min(50, Number(e.target.value)))
+                            )
+                          }
+                        />
+                        <div className="text-muted small mt-1">1–50 views</div>
+                      </div>
+                    </div>
+
+                    {/* Upload button */}
+                    <div className="mt-4 d-grid">
+                      <button
+                        className="btn btn-danger btn-lg rounded-pill"
+                        onClick={onUpload}
+                        disabled={loading || !file}
+                      >
+                        {loading ? "Uploading…" : "Upload & Get Link"}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-muted">
+                      Your secure link (expires automatically)
+                    </p>
+                    <div className="d-flex gap-2 mb-3">
+                      <input readOnly className="form-control" value={shareLink} />
+                      <button
+                        className="btn btn-success rounded-pill"
+                        onClick={copyToClipboard}
+                      >
+                        {copied ? "Copied ✅" : "Copy"}
+                      </button>
+                    </div>
+                    <button
+                      className="btn btn-outline-secondary btn-sm"
+                      onClick={() => setShareLink(null)}
+                    >
+                      Upload Another
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="text-center text-muted small mt-3">
+              BurnShot — secure, ephemeral screenshot sharing
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+</file>
+
+<file path=".github/workflows/cleanup.yml">
+name: Cleanup Job
+on:
+  schedule:
+    - cron: "0 * * * *" # every hour
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call cleanup API
+        run: |
+          curl -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" https://burnshot.vercel.app/api/cleanup
+</file>
+
+<file path="src/pages/api/consume-view.ts">
+// pages/api/consume-view.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE!;
+const BUCKET = "screenshots";
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
+  throw new Error("Missing SUPABASE env vars");
+}
+
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
+  auth: { persistSession: false },
+});
+
+type RespError =
+  | { ok: false; reason: "not_found" | "expired" | "error"; message?: string };
+type RespOk = {
+  ok: true;
+  fileUrl: string; // signed url
+  remainingViews: number | null;
+  expiry_at: string | null;
+  secondsLeft: number; // ✅ always present, never null
+};
+type Resp = RespError | RespOk;
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Resp>
+) {
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ ok: false, reason: "error", message: "Method not allowed" });
+  }
+
+  try {
+    const { id } = req.body as { id?: string };
+    if (!id) {
+      return res
+        .status(400)
+        .json({ ok: false, reason: "error", message: "Missing id" });
+    }
+
+    // === CALL RPC that atomically checks and increments ===
+    const { data: rpcRows, error: rpcError } = await supabaseAdmin.rpc(
+      "consume_screenshot",
+      { p_id: id }
+    );
+
+    if (rpcError) {
+      console.error("RPC error:", rpcError);
+      return res
+        .status(500)
+        .json({ ok: false, reason: "error", message: "DB error" });
+    }
+
+    if (!rpcRows || !Array.isArray(rpcRows) || rpcRows.length === 0) {
+      return res.status(404).json({ ok: false, reason: "not_found" });
+    }
+
+    const row = rpcRows[0] as {
+      status: string;
+      file_path: string | null;
+      expiry_at: string | null;
+      remaining_views: number | null;
+      will_deactivate: boolean | null;
+    };
+
+    if (row.status === "not_found")
+      return res.status(404).json({ ok: false, reason: "not_found" });
+    if (row.status === "expired")
+      return res.status(410).json({ ok: false, reason: "expired" });
+
+    // now status === 'ok'
+    if (!row.file_path) {
+      console.error("consume-view: ok but no file_path", id);
+      return res.status(500).json({
+        ok: false,
+        reason: "error",
+        message: "Missing file path",
+      });
+    }
+
+    // compute time left until expiry (if any)
+    let secondsLeft: number;
+    if (row.expiry_at) {
+      const expiryTs = new Date(row.expiry_at).getTime();
+      secondsLeft = Math.max(0, Math.ceil((expiryTs - Date.now()) / 1000));
+    } else {
+      // ✅ default when no expiry is set (e.g., purely view-limited screenshot)
+      secondsLeft = 300;
+    }
+
+    // sign url duration: keep short, at most 300s and not longer than expiry
+    const signDuration = Math.max(1, Math.min(300, secondsLeft));
+
+    const { data: signedData, error: signedErr } = await supabaseAdmin.storage
+      .from(BUCKET)
+      .createSignedUrl(row.file_path, signDuration);
+
+    if (signedErr || !signedData?.signedUrl) {
+      console.error("Signed URL error:", signedErr);
+      return res.status(500).json({
+        ok: false,
+        reason: "error",
+        message: "Failed to generate signed URL",
+      });
+    }
+
+    // respond with signed URL
+    res.status(200).json({
+      ok: true,
+      fileUrl: signedData.signedUrl,
+      remainingViews: row.remaining_views,
+      expiry_at: row.expiry_at ?? null,
+      secondsLeft, // ✅ always defined
+    });
+
+    // async cleanup: delay deletion if this was the last allowed view
+    const willDeactivate = !!row.will_deactivate;
+    if (willDeactivate) {
+      (async () => {
+        try {
+          // wait until the signed URL expires before deleting
+          const delayMs = (signDuration + 5) * 1000; // +5s safety buffer
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          const { error: removeErr } = await supabaseAdmin.storage
+            .from(BUCKET)
+            .remove([row.file_path as string]);
+
+          if (removeErr) {
+            console.error("Failed to remove file after last view:", removeErr);
+          } else {
+            const { error: updErr } = await supabaseAdmin
+              .from("screenshots")
+              .update({ file_path: null, is_removed: true, is_active: false })
+              .eq("id", id);
+
+            if (updErr) {
+              console.error("Failed to mark DB removed:", updErr);
+            }
+          }
+        } catch (e) {
+          console.error("Async cleanup error:", e);
+        }
+      })();
+    }
+  } catch (err: any) {
+    console.error("consume-view error:", err);
+    return res.status(500).json({
+      ok: false,
+      reason: "error",
+      message: err?.message ?? String(err),
+    });
+  }
+}
+</file>
+
+<file path="src/pages/privacy.tsx">
+// src/pages/privacy.tsx
+import React from "react";
+import Seo from "@/components/Seo";
+
+export default function PrivacyPage() {
+  return (
+    <>
+      <Seo
+        title="Privacy Policy | BurnShot 🔥"
+        description="Learn how BurnShot handles your data: no accounts, no tracking, temporary storage, and secure image sharing."
+        url="https://burnshot.vercel.app/privacy"
+      />
+
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-8 col-md-10">
+            <h2 className="mb-4">Privacy Policy</h2>
+            <p>
+              At <strong>BurnShot</strong>, your privacy is our top priority.
+              Here’s how we handle your data:
+            </p>
+
+            <h5>1. No Accounts, No Tracking</h5>
+            <p>
+              We do not require signups or personal information. BurnShot does not
+              track your browsing activity or build user profiles.
+            </p>
+
+            <h5>2. Temporary Storage</h5>
+            <p>
+              Files you upload are stored securely and are automatically destroyed
+              after the set expiry time or number of views. Once deleted, they
+              cannot be retrieved.
+            </p>
+
+            <h5>3. Access Control</h5>
+            <p>
+              Only those with the unique link can view your uploaded file. We do
+              not expose your files publicly.
+            </p>
+
+            <h5>4. Logs</h5>
+            <p>
+              For security and abuse prevention, minimal technical logs may be
+              collected (e.g., IP addresses). These are automatically rotated and
+              not used for tracking.
+            </p>
+
+            <h5>5. Third-Party Services</h5>
+            <p>
+              BurnShot uses trusted third-party infrastructure (like Supabase) for
+              secure storage and database operations. These providers may process
+              data only to enable our service.
+            </p>
+
+            <h5>6. Contact</h5>
+            <p>
+              For questions about this policy, reach out to {" "}
+              <strong>LogicLooms Lab</strong> at {" "}
+              <a href="mailto:logicloomslab@gmail.com">logicloomslab@gmail.com</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.js","src/types"],
+  "exclude": ["node_modules", "supabase/functions"]
+}
+</file>
+
+<file path="src/pages/about.tsx">
+// src/pages/about.tsx
+import React from "react";
+import Seo from "@/components/Seo";
+
+export default function AboutPage() {
+  return (
+    <>
+      <Seo
+        title="About BurnShot | Secure Screenshot Sharing"
+        description="BurnShot is a simple yet powerful tool for sharing images securely with view and time limits. Built by LogicLooms Lab."
+        url="https://burnshot.vercel.app/about"
+      />
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-lg-8 col-md-10">
+            <div className="burn-card p-4">
+              <h2 className="h4 mb-3">About BurnShot</h2>
+              <p>
+                <strong>BurnShot</strong> is a simple yet powerful tool for
+                sharing images/screenshots securely. Unlike traditional file-sharing,
+                BurnShot ensures your images disappear after a set number of views
+                or a time limit — no lingering files, no accidental oversharing.
+              </p>
+              <p>
+                Built with privacy in mind, BurnShot doesn’t require signups or
+                personal data. You’re always in control of how long your shared
+                content lives online.
+              </p>
+              <p>
+                BurnShot is proudly developed and maintained by{" "}
+                <strong>LogicLooms Lab</strong>. Our mission is to provide
+                privacy-focused tools that respect users and protect sensitive
+                information from unnecessary exposure.
+              </p>
+              <p>
+                In short: <em>Upload. Share. Burn.</em> That’s the BurnShot way.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+</file>
+
+<file path="src/pages/index.tsx">
+// src/pages/index.tsx
+import Link from "next/link";
+import React from "react";
+import Seo from "@/components/Seo";
+
+export default function HomePage() {
+  return (
+    <>
+      <Seo
+        title="BurnShot 🔥 | Secure, Self-Destructing Image Sharing"
+        description="Upload, share, and let your images/screenshots vanish automatically after a set number of views or time. BurnShot gives you privacy and control."
+        url="https://burnshot.vercel.app/"
+      />
+
+      <div>
+        {/* Hero Section */}
+        <section className="bg-light py-5 text-center">
+          <div className="container">
+            <h1 className="display-4 fw-bold text-dark">BurnShot 🔥</h1>
+            <p className="lead text-muted mb-4">
+              Secure, self-destructing image sharing.  
+              Upload, share, and let your images vanish after the set number of views or a time limit.
+            </p>
+            <Link href="/upload" className="btn btn-danger btn-lg rounded-pill">
+              Get Started
+            </Link>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-5">
+          <div className="container">
+            <div className="row text-center g-4">
+              <div className="col-md-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <div className="card-body">
+                    <h5 className="card-title">📤 Easy Upload</h5>
+                    <p className="card-text text-muted">
+                      Upload images quickly and securely.  
+                      No accounts required — just drag, drop, and share.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <div className="card-body">
+                    <h5 className="card-title">⏳ Auto-Expiry</h5>
+                    <p className="card-text text-muted">
+                      Your images self-destruct after the number of views you set  
+                      or once the time limit expires. You stay in control.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <div className="card-body">
+                    <h5 className="card-title">🔗 Instant Sharing</h5>
+                    <p className="card-text text-muted">
+                      Get a unique share link immediately.  
+                      Send it to anyone — no signups, no clutter, pure privacy.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Call-to-Action Section */}
+        <section className="bg-danger text-white py-5 text-center">
+          <div className="container">
+            <h2 className="fw-bold">Ready to share securely?</h2>
+            <p className="mb-4">Upload a image now and let BurnShot handle the rest.</p>
+            <Link
+              href="/upload"
+              className="btn btn-light btn-lg rounded-pill fw-semibold"
+            >
+              Upload Image
+            </Link>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+}
+</file>
+
+</files>
