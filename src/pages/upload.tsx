@@ -1,7 +1,8 @@
 // src/pages/upload.tsx
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Seo from "@/components/Seo";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "../../lib/supabaseClient";
 
 // --- Cryptography Utilities ---
 const generateKey = async () => {
@@ -33,12 +34,10 @@ const encryptFile = async (file: File) => {
     arrayBuffer
   );
 
-  // Combine IV (12 bytes) + Ciphertext into one buffer
   const combined = new Uint8Array(iv.length + ciphertext.byteLength);
   combined.set(iv, 0);
   combined.set(new Uint8Array(ciphertext), iv.length);
 
-  // Convert combined buffer to base64 for API upload
   const blob = new Blob([combined]);
   const base64Data = await new Promise<string>((resolve) => {
     const reader = new FileReader();
@@ -48,6 +47,14 @@ const encryptFile = async (file: File) => {
 
   return { base64Data, keyString };
 };
+
+interface AffiliateCampaign {
+  company_name: string;
+  headline: string;
+  subtext: string;
+  button_text: string;
+  link_url: string;
+}
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -59,10 +66,28 @@ export default function UploadPage() {
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [affiliate, setAffiliate] = useState<AffiliateCampaign | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const totalMinutes = hours * 60 + minutes;
   const maxUploadSizeMB = parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE ?? "8", 10);
+
+  useEffect(() => {
+    const fetchAffiliate = async () => {
+      const { data, error } = await supabase
+        .from("campaigns")
+        .select("company_name, headline, subtext, button_text, link_url")
+        .eq("is_active", true)
+        .eq("campaign_type", "banner")
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        setAffiliate(data as AffiliateCampaign);
+      }
+    };
+    fetchAffiliate();
+  }, []);
 
   function handleDragOver(e: React.DragEvent) { e.preventDefault(); setIsDragging(true); }
   function handleDragLeave(e: React.DragEvent) { e.preventDefault(); setIsDragging(false); }
@@ -76,7 +101,7 @@ export default function UploadPage() {
   function processFile(f?: File | null) {
     if (!f) return;
     if (f.size > maxUploadSizeMB * 1024 * 1024) {
-      alert(`File too large. Max allowed size is ${maxUploadSizeMB} MB.`);
+      alert(`File size exceeds configured limit of ${maxUploadSizeMB} MB.`);
       return;
     }
     setFile(f);
@@ -87,15 +112,13 @@ export default function UploadPage() {
     if (!file) return;
     setLoading(true);
     try {
-      // 1. Encrypt locally
       const { base64Data, keyString } = await encryptFile(file);
       
-      // 2. Upload encrypted blob
       const resp = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fileName: `${file.name}.enc`, // Mark as encrypted
+          fileName: `${file.name}.enc`,
           fileBase64: base64Data,
           expirySeconds: totalMinutes * 60,
           maxViews,
@@ -105,7 +128,6 @@ export default function UploadPage() {
       const json = await resp.json();
       if (!resp.ok || !json.ok) throw new Error(json.error || resp.statusText);
 
-      // 3. Append the decryption key as a URL fragment
       setShareLink(`${json.url}#${keyString}`);
     } catch (err: any) {
       alert("Encryption/Upload error: " + err.message);
@@ -192,12 +214,30 @@ export default function UploadPage() {
 
                   <hr className="border-secondary opacity-25" />
                   
-                  <div className="mt-4 p-3 rounded" style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
-                    <span className="badge bg-dark border border-secondary text-white-50 mb-2">Partner</span>
-                    <h6 className="fw-bold mb-1">Keep your browsing as hidden as your files.</h6>
-                    <p className="text-white-50 small mb-2">Get military-grade encryption with our top-rated VPN partner.</p>
-                    <a href="#" className="btn btn-sm btn-outline-light rounded-pill px-3">Claim 60% Off NordVPN</a>
-                  </div>
+                  {affiliate && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-4 p-3 rounded text-start" 
+                      style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+                    >
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <span className="badge bg-dark border border-secondary text-white-50">Partner: {affiliate.company_name}</span>
+                      </div>
+                      <h6 className="fw-bold mb-1 text-white">{affiliate.headline}</h6>
+                      <p className="text-white-50 small mb-3">{affiliate.subtext}</p>
+                      <a 
+                        href={affiliate.link_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="btn btn-sm btn-outline-light rounded-pill px-4"
+                        data-umami-event="Affiliate Click"
+                        data-umami-event-partner={affiliate.company_name}
+                      >
+                        {affiliate.button_text}
+                      </a>
+                    </motion.div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

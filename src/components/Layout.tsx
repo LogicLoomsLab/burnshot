@@ -1,3 +1,4 @@
+// src/components/Layout.tsx
 import { ReactNode, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -12,11 +13,12 @@ export default function Layout({ children }: LayoutProps) {
   const [bgImage, setBgImage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchSponsor = async () => {
+    const fetchBillboard = async () => {
       const { data, error } = await supabase
-        .from("sponsors")
+        .from("campaigns")
         .select("image_url")
         .eq("is_active", true)
+        .eq("campaign_type", "billboard")
         .limit(1)
         .single();
 
@@ -25,7 +27,7 @@ export default function Layout({ children }: LayoutProps) {
       }
     };
 
-    fetchSponsor();
+    fetchBillboard();
   }, []);
 
   return (
