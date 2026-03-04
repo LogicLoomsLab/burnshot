@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 interface Campaign {
   id: string;
-  campaign_type: "billboard" | "banner";
+  campaign_type: "billboard" | "banner" | "announcement";
   company_name: string;
   image_url: string;
   headline: string;
@@ -25,12 +25,12 @@ export default function AdminDashboard() {
   const [showForm, setShowForm] = useState(false);
   
   const [formData, setFormData] = useState({
-    campaign_type: "banner",
-    company_name: "",
+    campaign_type: "announcement", // Default to the new type
+    company_name: "BurnShot Team",
     image_url: "",
     headline: "",
     subtext: "",
-    button_text: "Claim Offer",
+    button_text: "",
     link_url: "",
   });
 
@@ -86,12 +86,12 @@ export default function AdminDashboard() {
     if (!error) {
       setShowForm(false);
       setFormData({
-        campaign_type: "banner",
-        company_name: "",
+        campaign_type: "announcement",
+        company_name: "BurnShot Team",
         image_url: "",
         headline: "",
         subtext: "",
-        button_text: "Claim Offer",
+        button_text: "",
         link_url: "",
       });
       fetchCampaigns();
@@ -134,41 +134,54 @@ export default function AdminDashboard() {
                   value={formData.campaign_type}
                   onChange={(e) => setFormData({...formData, campaign_type: e.target.value})}
                 >
+                  <option value="announcement">System Announcement (Brand Red)</option>
                   <option value="banner">Text Banner (Affiliate)</option>
                   <option value="billboard">Billboard (Background Image)</option>
                 </select>
               </div>
               <div className="col-md-4">
-                <label className="text-white-50 small">Partner / Company Name</label>
+                <label className="text-white-50 small">Internal Name / Partner</label>
                 <input required type="text" className="form-control glass-input" value={formData.company_name} onChange={(e) => setFormData({...formData, company_name: e.target.value})} />
-              </div>
-              <div className="col-md-4">
-                <label className="text-white-50 small">Target URL</label>
-                <input required type="url" className="form-control glass-input" value={formData.link_url} onChange={(e) => setFormData({...formData, link_url: e.target.value})} />
               </div>
 
               {formData.campaign_type === "billboard" && (
-                <div className="col-12">
-                  <label className="text-white-50 small">Background Image URL (High-Res)</label>
-                  <input required type="url" className="form-control glass-input" value={formData.image_url} onChange={(e) => setFormData({...formData, image_url: e.target.value})} />
-                </div>
+                <>
+                  <div className="col-md-4">
+                    <label className="text-white-50 small">Target URL</label>
+                    <input required type="url" className="form-control glass-input" value={formData.link_url} onChange={(e) => setFormData({...formData, link_url: e.target.value})} />
+                  </div>
+                  <div className="col-12">
+                    <label className="text-white-50 small">Background Image URL (High-Res)</label>
+                    <input required type="url" className="form-control glass-input" value={formData.image_url} onChange={(e) => setFormData({...formData, image_url: e.target.value})} />
+                  </div>
+                </>
               )}
 
-              {formData.campaign_type === "banner" && (
+              {(formData.campaign_type === "banner" || formData.campaign_type === "announcement") && (
                 <>
                   <div className="col-md-4">
                     <label className="text-white-50 small">Headline</label>
                     <input required type="text" className="form-control glass-input" value={formData.headline} onChange={(e) => setFormData({...formData, headline: e.target.value})} />
                   </div>
-                  <div className="col-md-4">
-                    <label className="text-white-50 small">Subtext</label>
+                  <div className="col-md-8">
+                    <label className="text-white-50 small">Subtext / Message</label>
                     <input required type="text" className="form-control glass-input" value={formData.subtext} onChange={(e) => setFormData({...formData, subtext: e.target.value})} />
                   </div>
-                  <div className="col-md-4">
-                    <label className="text-white-50 small">Button Text</label>
-                    <input required type="text" className="form-control glass-input" value={formData.button_text} onChange={(e) => setFormData({...formData, button_text: e.target.value})} />
-                  </div>
                 </>
+              )}
+
+              {/* Only require buttons/links for Affiliates, make optional for Announcements */}
+              {formData.campaign_type === "banner" && (
+                 <>
+                  <div className="col-md-6">
+                    <label className="text-white-50 small">Button Text</label>
+                    <input required={formData.campaign_type === "banner"} type="text" className="form-control glass-input" value={formData.button_text} onChange={(e) => setFormData({...formData, button_text: e.target.value})} />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="text-white-50 small">Target URL</label>
+                    <input required={formData.campaign_type === "banner"} type="url" className="form-control glass-input" value={formData.link_url} onChange={(e) => setFormData({...formData, link_url: e.target.value})} />
+                  </div>
+                 </>
               )}
               
               <div className="col-12 mt-4 text-end">
@@ -184,7 +197,7 @@ export default function AdminDashboard() {
               <tr>
                 <th className="text-white-50 font-monospace small border-0 py-3 px-4">Status</th>
                 <th className="text-white-50 font-monospace small border-0 py-3">Type</th>
-                <th className="text-white-50 font-monospace small border-0 py-3">Partner</th>
+                <th className="text-white-50 font-monospace small border-0 py-3">Name</th>
                 <th className="text-white-50 font-monospace small border-0 py-3 text-end px-4">Actions</th>
               </tr>
             </thead>

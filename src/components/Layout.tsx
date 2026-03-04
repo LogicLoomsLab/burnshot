@@ -10,7 +10,7 @@ type LayoutProps = {
 };
 
 interface Campaign {
-  campaign_type: "billboard" | "banner";
+  campaign_type: "billboard" | "banner" | "announcement";
   company_name: string;
   image_url: string;
   headline: string;
@@ -22,10 +22,10 @@ interface Campaign {
 export default function Layout({ children }: LayoutProps) {
   const [bgImage, setBgImage] = useState<string | null>(null);
   const [banner, setBanner] = useState<Campaign | null>(null);
+  const [announcement, setAnnouncement] = useState<Campaign | null>(null);
 
   useEffect(() => {
     const fetchCampaigns = async () => {
-      // Fetch all active campaigns in a single optimized query
       const { data, error } = await supabase
         .from("campaigns")
         .select("*")
@@ -34,9 +34,11 @@ export default function Layout({ children }: LayoutProps) {
       if (!error && data) {
         const activeBillboard = data.find(c => c.campaign_type === "billboard");
         const activeBanner = data.find(c => c.campaign_type === "banner");
+        const activeAnnouncement = data.find(c => c.campaign_type === "announcement");
         
         if (activeBillboard?.image_url) setBgImage(activeBillboard.image_url);
         if (activeBanner) setBanner(activeBanner as Campaign);
+        if (activeAnnouncement) setAnnouncement(activeAnnouncement as Campaign);
       }
     };
 
@@ -45,14 +47,31 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="d-flex flex-column min-vh-100 position-relative">
-      {/* Global Background Billboard */}
       <div 
         className="sponsor-bg" 
         style={bgImage ? { backgroundImage: `url(${bgImage})` } : {}}
       />
 
-      {/* Global Premium Affiliate Banner */}
       <AnimatePresence>
+        {/* The New Announcement Bar (Brand Red) */}
+        {announcement && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            className="w-100 py-2 px-3 text-center"
+            style={{ 
+              background: "var(--accent)", 
+              color: "white",
+              zIndex: 103, 
+              position: "relative" 
+            }}
+          >
+            <span className="fw-bold me-2">{announcement.headline}</span>
+            <span className="small opacity-75">{announcement.subtext}</span>
+          </motion.div>
+        )}
+
+        {/* The Affiliate Banner (Frosted Glass) */}
         {banner && (
           <motion.div 
             initial={{ opacity: 0, y: -50 }}
