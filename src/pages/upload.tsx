@@ -19,7 +19,7 @@ const bufferToBase64Url = (buffer: ArrayBuffer) => {
   return window.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
 
-const encryptFile = async (file: File) => {
+const encryptFileToBlob = async (file: File) => {
   const key = await generateKey();
   const exportedKey = await window.crypto.subtle.exportKey("raw", key);
   const keyString = bufferToBase64Url(exportedKey);
@@ -37,14 +37,8 @@ const encryptFile = async (file: File) => {
   combined.set(iv, 0);
   combined.set(new Uint8Array(ciphertext), iv.length);
 
-  const blob = new Blob([combined]);
-  const base64Data = await new Promise<string>((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve((reader.result as string).split(",")[1]);
-    reader.readAsDataURL(blob);
-  });
-
-  return { base64Data, keyString };
+  const encryptedBlob = new Blob([combined], { type: "application/octet-stream" });
+  return { encryptedBlob, keyString };
 };
 
 interface AffiliateCampaign {
@@ -111,33 +105,35 @@ export default function UploadPage() {
     if (!file) return;
     setLoading(true);
     try {
-      const { base64Data, keyString } = await encryptFile(file);
+      const { encryptedBlob, keyString } = await encryptFileToBlob(file);
       
-      const resp = await fetch("/api/upload", {
+      const prepResp = await fetch("/api/prepare-upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fileName: `${file.name}.enc`,
-          fileBase64: base64Data,
+          fileName: file.name,
+          fileSize: encryptedBlob.size,
           expirySeconds: totalMinutes * 60,
           maxViews,
         }),
       });
 
-      const textResp = await resp.text();
-      let json;
-      try {
-        json = JSON.parse(textResp);
-      } catch (parseError) {
-        if (resp.status === 413) {
-          throw new Error("File exceeds the serverless payload limit. Please try a smaller image.");
-        }
-        throw new Error(`Server returned an invalid response (${resp.status}): ${textResp.substring(0, 100)}...`);
+      const prepJson = await prepResp.json();
+      if (!prepResp.ok || !prepJson.ok) {
+        throw new Error(prepJson.error || "Failed to initialize upload payload.");
       }
 
-      if (!resp.ok || !json.ok) throw new Error(json.error || resp.statusText);
+      const storageResp = await fetch(prepJson.signedUrl, {
+        method: "PUT",
+        body: encryptedBlob,
+        headers: { "Content-Type": "application/octet-stream" }
+      });
 
-      setShareLink(`${json.url}#${keyString}`);
+      if (!storageResp.ok) {
+        throw new Error("Direct storage transfer failed.");
+      }
+
+      setShareLink(`${prepJson.url}#${keyString}`);
     } catch (err: any) {
       alert("Encryption/Upload error: " + err.message);
     } finally {
@@ -203,7 +199,7 @@ export default function UploadPage() {
                   )}
 
                   <button className="btn btn-burn w-100 py-3" onClick={onUpload} disabled={loading || !file}>
-                    {loading ? "Encrypting Locally..." : "Generate Secure Link"}
+                    {loading ? "Encrypting & Uploading..." : "Generate Secure Link"}
                   </button>
                 </motion.div>
               ) : (

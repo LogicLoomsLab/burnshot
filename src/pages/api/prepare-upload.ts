@@ -1,4 +1,4 @@
-// src/pages/api/upload.ts
+// src/pages/api/prepare-upload.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "crypto";
@@ -34,16 +34,8 @@ function rateLimit(ip: string, limit = 5, windowMs = 60_000) {
 }
 
 type Data =
-  | { ok: true; id: string; url: string }
+  | { ok: true; id: string; signedUrl: string; url: string }
   | { ok: false; error: string };
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: (process.env.MAX_UPLOAD_SIZE ?? "8") + "mb",
-    },
-  },
-};
 
 export default async function handler(
   req: NextApiRequest,
@@ -62,62 +54,36 @@ export default async function handler(
     if (!rateLimit(ip)) {
       return res.status(429).json({
         ok: false,
-        error: "Too many uploads. Please wait a minute.",
+        error: "Too many requests. Please wait a minute.",
       });
     }
 
-    const { fileName, fileBase64, expirySeconds = 3600, maxViews = 1 } =
-      req.body as {
-        fileName?: string;
-        fileBase64?: string;
-        expirySeconds?: number;
-        maxViews?: number;
-      };
+    const { fileName, fileSize, expirySeconds = 3600, maxViews = 1 } = req.body as {
+      fileName?: string;
+      fileSize?: number;
+      expirySeconds?: number;
+      maxViews?: number;
+    };
 
-    if (!fileName || !fileBase64) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "Missing fileName or fileBase64" });
+    if (!fileName || !fileSize) {
+      return res.status(400).json({ ok: false, error: "Missing metadata parameters" });
     }
 
-    const buffer = Buffer.from(fileBase64, "base64");
-    const maxBytes =
-      parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
+    const maxBytes = parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
     
-    if (buffer.length > maxBytes) {
+    if (fileSize > maxBytes) {
       return res.status(400).json({
         ok: false,
-        error: `File too large. Max allowed is ${
-          process.env.MAX_UPLOAD_SIZE ?? 8
-        }MB`,
+        error: `Payload exceeds configured limit of ${process.env.MAX_UPLOAD_SIZE ?? 8}MB`,
       });
     }
 
     const id = randomUUID();
-
-    // Sanitize filename to ensure compatibility with Supabase Storage keys
-    // Replaces spaces, no-break spaces, and special characters with underscores
     const safeFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-    const path = `${id}/${safeFileName}`;
-
-    const ext = safeFileName.split(".").pop()?.toLowerCase();
-    let contentType = "application/octet-stream";
-    if (ext === "jpg" || ext === "jpeg") contentType = "image/jpeg";
-    if (ext === "png") contentType = "image/png";
-    if (ext === "gif") contentType = "image/gif";
-    if (ext === "webp") contentType = "image/webp";
-    if (ext === "enc") contentType = "application/octet-stream";
-
-    const { error: uploadError } = await supabaseAdmin.storage
-      .from(BUCKET)
-      .upload(path, buffer, { contentType, upsert: false });
-
-    if (uploadError) {
-      console.error("Storage upload error:", uploadError);
-      return res.status(500).json({ ok: false, error: uploadError.message });
-    }
+    const path = `${id}/${safeFileName}.enc`;
 
     const expiryAt = new Date(Date.now() + expirySeconds * 1000).toISOString();
+    
     const { error: dbError } = await supabaseAdmin
       .from("screenshots")
       .insert([
@@ -130,13 +96,18 @@ export default async function handler(
       ]);
 
     if (dbError) {
-      console.error("DB insert error:", dbError);
-      try {
-        await supabaseAdmin.storage.from(BUCKET).remove([path]);
-      } catch (_) {
-        // Silent catch for rollback failure
-      }
+      console.error("Database initialization error:", dbError);
       return res.status(500).json({ ok: false, error: dbError.message });
+    }
+
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from(BUCKET)
+      .createSignedUploadUrl(path);
+
+    if (uploadError || !uploadData) {
+      console.error("Storage signature error:", uploadError);
+      await supabaseAdmin.from("screenshots").delete().eq("id", id);
+      return res.status(500).json({ ok: false, error: uploadError?.message || "Failed to generate upload signature" });
     }
 
     const host = req.headers.host;
@@ -146,11 +117,9 @@ export default async function handler(
     const finalBaseUrl = BASE_URL || requestBaseUrl;
     const shareUrl = `${finalBaseUrl}/view/${id}`;
 
-    return res.status(200).json({ ok: true, id, url: shareUrl });
+    return res.status(200).json({ ok: true, id, signedUrl: uploadData.signedUrl, url: shareUrl });
   } catch (err: any) {
-    console.error("Upload API error:", err);
-    return res
-      .status(500)
-      .json({ ok: false, error: err?.message ?? String(err) });
+    console.error("Prepare upload API error:", err);
+    return res.status(500).json({ ok: false, error: err?.message ?? String(err) });
   }
 }
