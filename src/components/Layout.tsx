@@ -47,39 +47,48 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="d-flex flex-column min-vh-100 position-relative">
+      {/* Global Background Billboard */}
       <div 
         className="sponsor-bg" 
-        style={bgImage ? { backgroundImage: `url(${bgImage})` } : {}}
+        style={bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
       />
 
       <AnimatePresence>
-        {/* The New Announcement Bar (Brand Red) */}
+        {/* Refined System Announcement Bar */}
         {announcement && (
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            className="w-100 py-2 px-3 text-center"
+            exit={{ opacity: 0, height: 0 }}
+            className="w-100 announcement-bar py-2 px-3 text-center"
             style={{ 
               background: "var(--accent)", 
               color: "white",
-              zIndex: 103, 
-              position: "relative" 
+              zIndex: 110, 
+              position: "relative",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.3)"
             }}
           >
-            <span className="fw-bold me-2">{announcement.headline}</span>
-            <span className="small opacity-75">{announcement.subtext}</span>
+            <div className="container d-flex flex-column flex-md-row align-items-center justify-content-center">
+              <span className="announcement-headline mb-1 mb-md-0">
+                {announcement.headline}
+              </span>
+              <span className="announcement-text small fw-medium">
+                {announcement.subtext}
+              </span>
+            </div>
           </motion.div>
         )}
 
-        {/* The Affiliate Banner (Frosted Glass) */}
+        {/* Global Affiliate Banner */}
         {banner && (
           <motion.div 
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             className="w-100 py-2 px-3 text-center d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 gap-md-3"
             style={{ 
-              background: "rgba(10, 10, 15, 0.6)", 
-              borderBottom: "1px solid rgba(255, 255, 255, 0.08)", 
+              background: "rgba(10, 10, 15, 0.7)", 
+              borderBottom: "1px solid rgba(255, 255, 255, 0.1)", 
               backdropFilter: "blur(20px)", 
               WebkitBackdropFilter: "blur(20px)",
               zIndex: 102, 
@@ -112,6 +121,7 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-fill position-relative" style={{ zIndex: 1 }}>
         <AnimatePresence mode="wait">
           <motion.div
+            key="page-content"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

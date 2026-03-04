@@ -99,3 +99,28 @@ html, body, #__next {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
 }
+
+/* src/styles/custom.css */
+
+.announcement-bar {
+  background: var(--accent); /* Your brand red */
+  color: white;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 59, 59, 0.2);
+}
+
+.announcement-headline {
+  text-transform: uppercase;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.75rem;
+}
+
+.announcement-text {
+  opacity: 0.95;
+}
