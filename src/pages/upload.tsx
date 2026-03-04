@@ -4,7 +4,6 @@ import Seo from "@/components/Seo";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../../lib/supabaseClient";
 
-// --- Cryptography Utilities ---
 const generateKey = async () => {
   return await window.crypto.subtle.generateKey(
     { name: "AES-GCM", length: 256 },
@@ -125,7 +124,17 @@ export default function UploadPage() {
         }),
       });
 
-      const json = await resp.json();
+      const textResp = await resp.text();
+      let json;
+      try {
+        json = JSON.parse(textResp);
+      } catch (parseError) {
+        if (resp.status === 413) {
+          throw new Error("File exceeds the serverless payload limit. Please try a smaller image.");
+        }
+        throw new Error(`Server returned an invalid response (${resp.status}): ${textResp.substring(0, 100)}...`);
+      }
+
       if (!resp.ok || !json.ok) throw new Error(json.error || resp.statusText);
 
       setShareLink(`${json.url}#${keyString}`);

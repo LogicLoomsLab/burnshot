@@ -17,6 +17,7 @@ const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
 });
 
 const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
+
 function rateLimit(ip: string, limit = 5, windowMs = 60_000) {
   const now = Date.now();
   const entry = rateLimitStore.get(ip);
@@ -82,6 +83,7 @@ export default async function handler(
     const buffer = Buffer.from(fileBase64, "base64");
     const maxBytes =
       parseInt(process.env.MAX_UPLOAD_SIZE ?? "8", 10) * 1024 * 1024;
+    
     if (buffer.length > maxBytes) {
       return res.status(400).json({
         ok: false,
@@ -92,14 +94,19 @@ export default async function handler(
     }
 
     const id = randomUUID();
-    const path = `${id}/${fileName}`;
 
-    const ext = fileName.split(".").pop()?.toLowerCase();
+    // Sanitize filename to ensure compatibility with Supabase Storage keys
+    // Replaces spaces, no-break spaces, and special characters with underscores
+    const safeFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+    const path = `${id}/${safeFileName}`;
+
+    const ext = safeFileName.split(".").pop()?.toLowerCase();
     let contentType = "application/octet-stream";
     if (ext === "jpg" || ext === "jpeg") contentType = "image/jpeg";
     if (ext === "png") contentType = "image/png";
     if (ext === "gif") contentType = "image/gif";
     if (ext === "webp") contentType = "image/webp";
+    if (ext === "enc") contentType = "application/octet-stream";
 
     const { error: uploadError } = await supabaseAdmin.storage
       .from(BUCKET)
@@ -126,7 +133,9 @@ export default async function handler(
       console.error("DB insert error:", dbError);
       try {
         await supabaseAdmin.storage.from(BUCKET).remove([path]);
-      } catch (_) {}
+      } catch (_) {
+        // Silent catch for rollback failure
+      }
       return res.status(500).json({ ok: false, error: dbError.message });
     }
 
