@@ -1,18 +1,39 @@
-// src/components/Layout.tsx
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "../../lib/supabaseClient";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 export default function Layout({ children }: LayoutProps) {
+  const [bgImage, setBgImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSponsor = async () => {
+      const { data, error } = await supabase
+        .from("sponsors")
+        .select("image_url")
+        .eq("is_active", true)
+        .limit(1)
+        .single();
+
+      if (!error && data?.image_url) {
+        setBgImage(data.image_url);
+      }
+    };
+
+    fetchSponsor();
+  }, []);
+
   return (
     <div className="d-flex flex-column min-vh-100 position-relative">
-      {/* Global Dynamic Sponsor Background */}
-      <div className="sponsor-bg" />
+      <div 
+        className="sponsor-bg" 
+        style={bgImage ? { backgroundImage: `url(${bgImage})` } : {}}
+      />
 
       <Navbar />
 
