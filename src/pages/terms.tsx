@@ -1,58 +1,33 @@
 // src/pages/terms.tsx
 import React from "react";
 import Seo from "@/components/Seo";
+import { motion } from "framer-motion";
 
 export default function TermsPage() {
   return (
     <>
-      <Seo
-        title="Terms & Conditions | BurnShot 🔥"
-        description="Read the terms and conditions for using BurnShot — a secure, self-destructing image sharing platform."
-        url="https://burnshot.vercel.app/terms"
-      />
-
+      <Seo title="Terms of Service | BurnShot" description="Terms of Service" url="https://burnshot.app/terms" />
       <div className="container py-5">
         <div className="row justify-content-center">
-          <div className="col-lg-8 col-md-10">
-            <h2 className="mb-4">Terms & Conditions</h2>
-            <p>
-              Welcome to <strong>BurnShot</strong>. By using our service, you agree
-              to the following terms:
-            </p>
+          <div className="col-lg-8">
+            <motion.div className="glass-panel p-4 p-md-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <h2 className="h2 fw-bold text-white mb-4">Terms of Service</h2>
+              <div className="text-white-50">
+                <p className="mb-4">Accessing and routing data through the BurnShot infrastructure implies binding consent to the following operational parameters.</p>
 
-            <h5>1. Usage</h5>
-            <p>
-              BurnShot is intended for temporary sharing of screenshots and images
-              only. Do not use this service to share illegal, harmful, or abusive
-              content.
-            </p>
+                <h5 className="text-white fw-bold">1. Acceptable Use</h5>
+                <p className="mb-4">BurnShot is provisioned for the secure, temporary transfer of legitimate visual data. Transmission of illegal, non-consensual, or malicious payloads is strictly prohibited and subject to immediate infrastructural blocking.</p>
 
-            <h5>2. Ephemeral Storage</h5>
-            <p>
-              Uploaded files are automatically deleted after the set number of
-              views or after the expiry time you choose. While we do our best to
-              enforce this, we cannot guarantee absolute deletion from all systems
-              instantly.
-            </p>
+                <h5 className="text-white fw-bold">2. Cryptographic Deletion</h5>
+                <p className="mb-4">While the system is architected for automated destruction, BurnShot provides the service "as is." LogicLooms Lab assumes no liability for network latency, unauthorized local access by the recipient, or potential extraction via third-party screen-capture tools.</p>
 
-            <h5>3. No Liability</h5>
-            <p>
-              BurnShot is provided “as is.” We do not accept responsibility for
-              loss of data, unauthorized access, or misuse of links once they have
-              been shared.
-            </p>
+                <h5 className="text-white fw-bold">3. Rate Limiting & Abuse</h5>
+                <p className="mb-4">To maintain global uptime, strict IP-based rate limiting is enforced at the edge layer. Automated abuse or attempts to bypass upload thresholds will result in permanent blacklisting.</p>
 
-            <h5>4. Fair Use</h5>
-            <p>
-              Users must not abuse the service by overloading servers, attempting
-              to bypass limits, or using BurnShot for malicious activities.
-            </p>
-
-            <h5>5. Changes</h5>
-            <p>
-              We may update these Terms at any time. Continued use of the service
-              means you accept the latest version.
-            </p>
+                <h5 className="text-white fw-bold">4. Modifications</h5>
+                <p className="mb-0">LogicLooms Lab reserves the right to dynamically adjust constraints (e.g., max payload size, TTL limits) to optimize system integrity without prior notice.</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

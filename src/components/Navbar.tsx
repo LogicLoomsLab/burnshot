@@ -4,18 +4,22 @@ import { useRouter } from "next/router";
 
 export default function Navbar() {
   const router = useRouter();
-
-  const isActive = (path: string) =>
-    router.pathname === path ? "active fw-bold" : "";
+  
+  // Helper to apply the bright white color to the active tab
+  const isActive = (path: string) => 
+    router.pathname === path ? "text-white fw-bold" : "text-white-50";
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark navbar-glass py-3 position-relative" style={{ zIndex: 100 }}>
       <div className="container">
-        <Link className="navbar-brand fw-bold text-danger" href="/">
-          BurnShot
+        {/* Brand Logo */}
+        <Link className="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+          <span style={{ fontSize: "1.5rem" }}>🔥</span> BurnShot
         </Link>
+        
+        {/* Mobile Toggle */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -25,19 +29,13 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        
+        {/* Navigation Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav ms-auto gap-2 gap-lg-4 align-items-lg-center">
             <li className="nav-item">
               <Link className={`nav-link ${isActive("/")}`} href="/">
                 Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${isActive("/upload")}`}
-                href="/upload"
-              >
-                Upload
               </Link>
             </li>
             <li className="nav-item">
@@ -45,14 +43,23 @@ export default function Navbar() {
                 About
               </Link>
             </li>
-            <li className="nav-item">
+            
+            {/* Mobile-only Legal Links (Keeps desktop clean, but accessible on phones) */}
+            <li className="nav-item d-lg-none">
               <Link className={`nav-link ${isActive("/terms")}`} href="/terms">
                 Terms
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item d-lg-none">
               <Link className={`nav-link ${isActive("/privacy")}`} href="/privacy">
                 Privacy
+              </Link>
+            </li>
+
+            {/* Header CTA - Drives users straight to the money-maker */}
+            <li className="nav-item ms-lg-2 mt-3 mt-lg-0">
+              <Link href="/upload" className="btn btn-burn rounded-pill px-4 py-2 w-100 d-lg-inline-block shadow-sm">
+                Start Encrypting
               </Link>
             </li>
           </ul>

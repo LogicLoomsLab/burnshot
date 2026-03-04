@@ -1,41 +1,40 @@
 // src/pages/about.tsx
 import React from "react";
 import Seo from "@/components/Seo";
+import { motion } from "framer-motion";
 
 export default function AboutPage() {
   return (
     <>
-      <Seo
-        title="About BurnShot | Secure Screenshot Sharing"
-        description="BurnShot is a simple yet powerful tool for sharing images securely with view and time limits. Built by LogicLooms Lab."
-        url="https://burnshot.vercel.app/about"
-      />
+      <Seo title="About | BurnShot" description="The infrastructure of ephemeral sharing." url="https://burnshot.app/about" />
       <div className="container py-5">
         <div className="row justify-content-center">
-          <div className="col-lg-8 col-md-10">
-            <div className="burn-card p-4">
-              <h2 className="h4 mb-3">About BurnShot</h2>
-              <p>
-                <strong>BurnShot</strong> is a simple yet powerful tool for
-                sharing images/screenshots securely. Unlike traditional file-sharing,
-                BurnShot ensures your images disappear after a set number of views
-                or a time limit — no lingering files, no accidental oversharing.
-              </p>
-              <p>
-                Built with privacy in mind, BurnShot doesn’t require signups or
-                personal data. You’re always in control of how long your shared
-                content lives online.
-              </p>
-              <p>
-                BurnShot is proudly developed and maintained by{" "}
-                <strong>LogicLooms Lab</strong>. Our mission is to provide
-                privacy-focused tools that respect users and protect sensitive
-                information from unnecessary exposure.
-              </p>
-              <p>
-                In short: <em>Upload. Share. Burn.</em> That’s the BurnShot way.
-              </p>
-            </div>
+          <div className="col-lg-8">
+            <motion.div 
+              className="glass-panel p-4 p-md-5"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="d-inline-block mb-3 px-3 py-1 rounded-pill" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                <span className="small fw-bold text-white-50 text-uppercase">About The Protocol</span>
+              </div>
+              <h2 className="display-6 fw-bold text-white mb-4">Engineering Privacy.</h2>
+              
+              <div className="text-white-50" style={{ lineHeight: "1.8", fontSize: "1.1rem" }}>
+                <p className="mb-4">
+                  <strong className="text-white">BurnShot</strong> is engineered to solve a fundamental flaw in modern communication: the persistence of data. When you send a screenshot via messaging apps or email, you lose control of that asset forever.
+                </p>
+                <p className="mb-4">
+                  We built a zero-knowledge, ephemeral routing system. BurnShot allows you to distribute sensitive visual data with mathematical certainty that it will self-destruct.
+                </p>
+                <p className="mb-4">
+                  Maintained by <strong className="text-white">LogicLooms Lab</strong>, our architecture requires no accounts and processes no personally identifiable information. We provide the infrastructure; you control the payload.
+                </p>
+                <p className="mb-0">
+                  <em className="text-white">Upload. Transmit. Detonate.</em>
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

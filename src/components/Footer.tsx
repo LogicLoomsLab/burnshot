@@ -3,17 +3,19 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-light py-3 mt-5 border-top border-secondary">
-      <div className="container text-center small">
-        BurnShot © {new Date().getFullYear()} — Secure, ephemeral sharing
-        <div className="text-muted mb-2">
-          Built with ❤️ by LogicLooms Lab
+    <footer className="py-4 mt-auto position-relative" style={{ zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.3)", backdropFilter: "blur(10px)" }}>
+      <div className="container text-center small text-white-50">
+        <div className="mb-2 fw-medium text-white">
+          BurnShot © {new Date().getFullYear()} — Secure, ephemeral sharing
         </div>
-        <div>
-          <Link href="/terms" className="text-decoration-none text-light me-3">
+        <div className="mb-3">
+          Built with <span className="text-danger">❤️</span> by LogicLooms Lab
+        </div>
+        <div className="d-flex justify-content-center gap-4">
+          <Link href="/terms" className="text-decoration-none text-white-50 hover-white transition-colors">
             Terms
           </Link>
-          <Link href="/privacy" className="text-decoration-none text-light">
+          <Link href="/privacy" className="text-decoration-none text-white-50 hover-white transition-colors">
             Privacy
           </Link>
         </div>

@@ -1,96 +1,101 @@
 /* src/styles/custom.css */
 
-/* Basic body background and text color */
 :root {
-    --bg: #0b0f1a;
-    --card: #0f1724;
-    --muted: #9aa4b2;
-    --accent: #ff5858;
-    --accent-2: #ffb86b;
-  }
-  
-  html, body, #__next {
-    height: 100%;
-  }
-  
-  body {
-    background: linear-gradient(180deg, #07070b 0%, #0d1117 100%);
-    color: #e6eef6;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  /* Card look */
-  .burn-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.03);
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-  }
-  
-  /* File dropzone */
-  .dropzone {
-    border: 2px dashed rgba(255,255,255,0.06);
-    border-radius: 12px;
-    padding: 30px;
-    transition: background .18s ease, border-color .18s ease;
-  }
-  .dropzone:hover {
-    background: rgba(255,255,255,0.01);
-    border-color: rgba(255,255,255,0.08);
-  }
-  
-  /* small muted helper text */
-  .muted-sm { color: var(--muted); font-size: .87rem; }
-  
-  /* rounded full button */
-  .btn-pill { border-radius: 999px; }
-  
-  /* preview image */
-  .img-preview {
-    max-height: 320px;
-    width: auto;
-    border-radius: 12px;
-    object-fit: contain;
-    display:block;
-    margin-left:auto;margin-right:auto;
-  }
-  
-  /* circular countdown ring */
-  .countdown-ring {
-    width: 76px;
-    height: 76px;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    pointer-events: none;
-  }
-  .countdown-text {
-    font-weight: 700;
-    font-size: 14px;
-    fill: #fff;
-    text-anchor: middle;
-  }
-  
-  /* Expired overlay */
-  .expired-overlay {
-    background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(10,10,10,0.7));
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ff6b6b;
-    font-weight: 700;
-  }
-  
-  /* small helpers */
-  .center-vertical { display:flex; align-items:center; justify-content:center; }
-  .mb-1 { margin-bottom: .25rem; }
-  .mt-1 { margin-top: .25rem; }
+  --bg-dark: #050505;
+  --accent: #ff3b3b;
+  --accent-glow: rgba(255, 59, 59, 0.4);
+}
 
-  /* Force navbar to always use the same solid dark color */
-.navbar.bg-dark {
-  background-color: #0b0f1a !important;
+html, body, #__next {
+  height: 100%;
+  background-color: var(--bg-dark);
+  color: #ffffff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* The Premium Billboard Space 
+  Later, we will swap this dynamically from the database for paid sponsors.
+*/
+.sponsor-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Placeholder high-end background */
+  background: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050505 80%);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transition: background-image 1s ease-in-out;
+}
+
+/* The Frosted Glass UI */
+.glass-panel {
+  background: rgba(10, 10, 15, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* File Dropzone - Interactive state */
+.dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 40px 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.dropzone:hover, .dropzone.active {
+  border-color: var(--accent);
+  background: rgba(255, 59, 59, 0.05);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Inputs & Buttons */
+.glass-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 12px;
+}
+.glass-input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 59, 59, 0.25);
+  color: #fff;
+}
+
+/* Modern Pill Button */
+.btn-burn {
+  background: linear-gradient(135deg, #ff3b3b 0%, #ff1a1a 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-burn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px var(--accent-glow);
+  color: white;
+}
+.btn-burn:disabled {
+  background: #333;
+  color: #888;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Transparent Navbar */
+.navbar-glass {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }

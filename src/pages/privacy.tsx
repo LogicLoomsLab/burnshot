@@ -1,64 +1,37 @@
 // src/pages/privacy.tsx
 import React from "react";
 import Seo from "@/components/Seo";
+import { motion } from "framer-motion";
 
 export default function PrivacyPage() {
   return (
     <>
-      <Seo
-        title="Privacy Policy | BurnShot 🔥"
-        description="Learn how BurnShot handles your data: no accounts, no tracking, temporary storage, and secure image sharing."
-        url="https://burnshot.vercel.app/privacy"
-      />
-
+      <Seo title="Privacy Policy | BurnShot" description="Zero-tracking privacy policy." url="https://burnshot.app/privacy" />
       <div className="container py-5">
         <div className="row justify-content-center">
-          <div className="col-lg-8 col-md-10">
-            <h2 className="mb-4">Privacy Policy</h2>
-            <p>
-              At <strong>BurnShot</strong>, your privacy is our top priority.
-              Here’s how we handle your data:
-            </p>
+          <div className="col-lg-8">
+            <motion.div className="glass-panel p-4 p-md-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <h2 className="h2 fw-bold text-white mb-4">Privacy Architecture</h2>
+              <div className="text-white-50">
+                <p className="mb-5 lead">Our policy is simple: We cannot leak data we do not collect.</p>
 
-            <h5>1. No Accounts, No Tracking</h5>
-            <p>
-              We do not require signups or personal information. BurnShot does not
-              track your browsing activity or build user profiles.
-            </p>
+                <h5 className="text-white fw-bold">1. Zero-Account Infrastructure</h5>
+                <p className="mb-4">BurnShot operates on a stateless consumer model. We do not require, request, or store names, email addresses, or identifying markers.</p>
 
-            <h5>2. Temporary Storage</h5>
-            <p>
-              Files you upload are stored securely and are automatically destroyed
-              after the set expiry time or number of views. Once deleted, they
-              cannot be retrieved.
-            </p>
+                <h5 className="text-white fw-bold">2. Ephemeral Storage Protocol</h5>
+                <p className="mb-4">Uploaded assets reside in temporary cloud buckets. Upon hitting the user-defined view threshold or TTL (Time-To-Live) expiry, an automated RPC irreversibly purges the asset from our storage arrays.</p>
 
-            <h5>3. Access Control</h5>
-            <p>
-              Only those with the unique link can view your uploaded file. We do
-              not expose your files publicly.
-            </p>
+                <h5 className="text-white fw-bold">3. Analytics & Telemetry</h5>
+                <p className="mb-4">We utilize cookie-free, strictly anonymized event tracking to monitor global system load and uptime. No user fingerprinting or cross-site tracking scripts are executed.</p>
 
-            <h5>4. Logs</h5>
-            <p>
-              For security and abuse prevention, minimal technical logs may be
-              collected (e.g., IP addresses). These are automatically rotated and
-              not used for tracking.
-            </p>
+                <h5 className="text-white fw-bold">4. Third-Party Infrastructure</h5>
+                <p className="mb-4">BurnShot leverages enterprise-grade providers (Vercel, Supabase) strictly for edge routing and secure blob storage. Assets are never shared with or sold to data brokers.</p>
 
-            <h5>5. Third-Party Services</h5>
-            <p>
-              BurnShot uses trusted third-party infrastructure (like Supabase) for
-              secure storage and database operations. These providers may process
-              data only to enable our service.
-            </p>
-
-            <h5>6. Contact</h5>
-            <p>
-              For questions about this policy, reach out to {" "}
-              <strong>LogicLooms Lab</strong> at {" "}
-              <a href="mailto:logicloomslab@gmail.com">logicloomslab@gmail.com</a>.
-            </p>
+                <p className="mt-5 small border-top border-secondary pt-4">
+                  Direct inquiries: <a href="mailto:logicloomslab@gmail.com" className="text-accent text-decoration-none">logicloomslab@gmail.com</a>
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
