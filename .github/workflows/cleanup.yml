@@ -10,6 +10,6 @@ jobs:
     steps:
       - name: Call cleanup API
         run: |
-          curl -f -i -X GET \
+          curl -f -i -L -X GET \
           -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" \
-          "https://burnshot.app/api/cleanup"
+          "https://www.burnshot.app/api/cleanup"
