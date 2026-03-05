@@ -1,4 +1,4 @@
-// pages/api/cleanup.ts
+// src/pages/api/cleanup.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 
@@ -16,15 +16,15 @@ const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "GET") return res.status(405).end("Only GET");
+  if (req.method !== "GET") return res.status(405).json({ ok: false, error: "Only GET is allowed" });
 
   const incomingSecret = req.headers["x-cleanup-secret"];
   if (!CLEANUP_SECRET || incomingSecret !== CLEANUP_SECRET) {
-    return res.status(401).end("Unauthorized");
+    return res.status(401).json({ ok: false, error: "Unauthorized: Invalid or missing x-cleanup-secret" });
   }
 
   try {
-    // fetch candidates
+    // 1. Fetch candidates
     const { data: rows, error } = await supabaseAdmin
       .from("screenshots")
       .select("id, file_path, expiry_at, max_views, views, is_active")
@@ -32,63 +32,65 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (error) {
       console.error("Cleanup: DB fetch error:", error);
-      return res.status(500).json({ ok: false, message: "DB error" });
+      return res.status(500).json({ ok: false, error: "Database fetch failed", details: error });
     }
 
     const now = new Date();
+    
+    // 2. Filter out rows that require deletion
     const toDelete = (rows || []).filter((r: any) => {
       if (!r.file_path) return false;
-      if (!r.is_active) return true;
+      if (r.is_active === false) return true;
       if (r.expiry_at && new Date(r.expiry_at) <= now) return true;
-      if (
-        r.max_views !== null &&
-        r.max_views !== undefined &&
-        r.views >= r.max_views
-      )
-        return true;
+      if (r.max_views !== null && r.max_views !== undefined && r.views >= r.max_views) return true;
+      
       return false;
     });
 
     if (toDelete.length === 0) {
-      return res.status(200).json({ ok: true, deleted: 0 });
+      return res.status(200).json({ ok: true, message: "No expired files found", deleted: 0 });
     }
 
-    // process in parallel
+    // 3. Process in parallel with strict error catching
     const results = await Promise.allSettled(
       toDelete.map(async (r: any) => {
         try {
-          const filePath = r.file_path;
+          // Remove from Storage
           const { error: rmErr } = await supabaseAdmin.storage
             .from(BUCKET)
-            .remove([filePath]);
+            .remove([r.file_path]);
 
+          if (rmErr) throw new Error(`Storage remove error: ${rmErr.message}`);
+
+          // Soft-delete the database record
           const { error: updErr } = await supabaseAdmin
             .from("screenshots")
             .update({ file_path: null, is_removed: true, is_active: false })
             .eq("id", r.id);
 
-          return { id: r.id, removed: !rmErr, rmErr, updErr };
-        } catch (e) {
+          if (updErr) throw new Error(`DB update error: ${updErr.message}`);
+
+          return { id: r.id, removed: true };
+        } catch (e: any) {
+          console.error(`Failed to clean up ID ${r.id}:`, e);
           return { id: r.id, removed: false, error: String(e) };
         }
       })
     );
 
     const deletedCount = results.filter(
-      (r) =>
-        r.status === "fulfilled" &&
-        (r as any).value &&
-        (r as any).value.removed
+      (r) => r.status === "fulfilled" && (r as any).value?.removed === true
     ).length;
 
     return res.status(200).json({
       ok: true,
-      examined: toDelete.length,
-      deleted: deletedCount,
+      examined: rows?.length || 0,
+      flagged_for_deletion: toDelete.length,
+      successfully_deleted: deletedCount,
       details: results,
     });
   } catch (err: any) {
-    console.error("cleanup error:", err);
-    return res.status(500).json({ ok: false, message: String(err) });
+    console.error("Fatal cleanup error:", err);
+    return res.status(500).json({ ok: false, error: String(err) });
   }
 }

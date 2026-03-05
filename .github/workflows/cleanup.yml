@@ -2,10 +2,14 @@ name: Cleanup Job
 on:
   schedule:
     - cron: "0 * * * *" # every hour
+  workflow_dispatch: # Allows us to run it manually for testing!
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
       - name: Call cleanup API
         run: |
-          curl -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" https://burnshot.app/api/cleanup
+          curl -f -i -X GET \
+          -H "x-cleanup-secret: ${{ secrets.CLEANUP_SECRET }}" \
+          "https://burnshot.app/api/cleanup"
