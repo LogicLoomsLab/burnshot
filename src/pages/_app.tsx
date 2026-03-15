@@ -19,6 +19,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          data-exclude-hash="true"
+          data-exclude-search="true"
         />
       </Head>
 
