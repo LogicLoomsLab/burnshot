@@ -55,6 +55,11 @@ export default function Navbar() {
                 Privacy
               </Link>
             </li>
+            <li className="nav-item d-lg-none">
+              <Link className={`nav-link ${isActive("/contact")}`} href="/contact">
+                Contact
+              </Link>
+            </li>
 
             {/* Header CTA - Drives users straight to the money-maker */}
             <li className="nav-item ms-lg-2 mt-3 mt-lg-0">

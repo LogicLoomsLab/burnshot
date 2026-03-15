@@ -28,7 +28,7 @@ export default function PrivacyPage() {
                 <p className="mb-4">BurnShot leverages enterprise-grade providers (Vercel, Supabase) strictly for edge routing and secure blob storage. Assets are never shared with or sold to data brokers.</p>
 
                 <p className="mt-5 small border-top border-secondary pt-4">
-                  Direct inquiries: <a href="mailto:logicloomslab@gmail.com" className="text-accent text-decoration-none">logicloomslab@gmail.com</a>
+                  Direct inquiries: <a href="mailto:hello@logicloomslab.com" className="text-accent text-decoration-none">hello@logicloomslab.com</a>
                 </p>
               </div>
             </motion.div>
